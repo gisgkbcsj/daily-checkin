@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2b665e">
+<meta name="description" content="一次只显示当前该做的一件事，完成后自动跳下一项。">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="接下来">
+<meta name="application-name" content="接下来">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.svg">
+<title>接下来 · 每日打卡</title>
+<style>
+  :root{
+    --bg:#f2f0ea; --card:#fff; --line:#e5e0d6; --line2:#f0ece4;
+    --ink:#242a2e; --ink2:#5a646d; --ink3:#8d959c;
+    --teal:#2b665e; --teal2:#3d8479; --tealbg:#e8f2ef;
+    --amber:#96682a; --amberbg:#fbf3e4;
+    --rose:#9c4848; --rosebg:#faeded;
+    --ok:#2f7d5c;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink); font-size:16px; line-height:1.7;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-text-size-adjust:100%;
+  }
+  .app{max-width:640px; margin:0 auto; padding:14px 14px 150px}
+
+  /* ---------- 顶栏 ---------- */
+  .bar{display:flex; align-items:center; gap:8px; margin-bottom:14px}
+  .bar .t{flex:1; font-size:17px; font-weight:600; line-height:1.3}
+  .bar .t small{display:block; font-size:12px; color:var(--ink3); font-weight:400}
+  .vbtn{font-size:12.5px; color:var(--ink2); background:var(--card); border:1px solid var(--line);
+    border-radius:9px; padding:8px 11px; cursor:pointer; font-family:inherit; white-space:nowrap; text-decoration:none}
+  .vbtn:hover{border-color:var(--teal2); color:var(--teal)}
+  .prog{height:5px; border-radius:99px; background:#e8e4db; overflow:hidden; margin-bottom:16px}
+  .prog i{display:block; height:100%; background:linear-gradient(90deg,var(--teal2),var(--teal)); width:0; transition:.4s}
+
+  /* ---------- 当前事项 ---------- */
+  .now{background:var(--card); border:1px solid var(--line); border-left:5px solid var(--teal);
+    border-radius:16px; padding:20px 18px; box-shadow:0 2px 12px rgba(0,0,0,.05)}
+  .now .tag{display:inline-block; font-size:11.5px; padding:3px 10px; border-radius:99px;
+    background:var(--tealbg); color:var(--teal); font-weight:600; letter-spacing:.5px; margin-bottom:12px}
+  .now .tag.soon{background:var(--amberbg); color:var(--amber)}
+  .now h2{margin:0 0 8px; font-size:25px; line-height:1.35; letter-spacing:.2px}
+  .now p.d{margin:0 0 4px; font-size:14.5px; color:var(--ink2); line-height:1.65}
+  .now .when{font-size:12.5px; color:var(--ink3); margin-top:10px}
+
+  .acts{display:flex; gap:9px; margin-top:18px; flex-wrap:wrap}
+  .btn{flex:1; min-width:120px; font-family:inherit; font-size:16px; font-weight:600;
+    padding:14px 16px; border-radius:12px; border:1px solid var(--line); background:#fdfcfa;
+    color:var(--ink2); cursor:pointer}
+  .btn.p{background:var(--teal); border-color:var(--teal); color:#fff}
+  .btn:active{opacity:.85}
+  .btn.t{flex:none; min-width:auto; font-size:14px; font-weight:500; padding:14px 16px}
+
+  /* 计时器 */
+  .timer{display:none; margin-top:15px; padding:14px; border-radius:12px; background:var(--tealbg); border:1px solid #cfe4dc}
+  .timer.show{display:block}
+  .timer .tt{font-size:12.5px; color:var(--teal); margin-bottom:5px}
+  .timer .tm{font-size:38px; font-weight:700; color:var(--teal); font-variant-numeric:tabular-nums; letter-spacing:1px; line-height:1.1}
+  .timer .tb{height:5px; border-radius:99px; background:#cfe4dc; overflow:hidden; margin:9px 0 11px}
+  .timer .tb i{display:block; height:100%; background:var(--teal); width:0; transition:width .25s linear}
+  .timer .ta{display:flex; gap:8px; flex-wrap:wrap}
+  .timer .ta button{font-size:13.5px; font-family:inherit; border-radius:9px; padding:9px 14px; cursor:pointer;
+    border:1px solid var(--line); background:#fff; color:var(--ink2)}
+  .timer .ta button.p{background:var(--teal); border-color:var(--teal); color:#fff}
+  .timer.warn{background:var(--amberbg); border-color:#ecdcb8}
+  .timer.warn .tt,.timer.warn .tm{color:var(--amber)}
+  .timer.warn .tb{background:#ecdcb8}
+  .timer.warn .tb i{background:var(--amber)}
+
+  /* ---------- 全部完成 ---------- */
+  .done-card{background:var(--tealbg); border:1px solid #cfe4dc; border-radius:16px; padding:26px 18px; text-align:center}
+  .done-card .e{font-size:42px; line-height:1}
+  .done-card h2{margin:10px 0 6px; font-size:21px; color:var(--teal)}
+  .done-card p{margin:0; font-size:14px; color:var(--ink2)}
+
+  /* ---------- 后续 / 已完成 ---------- */
+  .sect{margin-top:18px; background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden}
+  .sect > summary{padding:14px 16px; cursor:pointer; font-size:14.5px; font-weight:600; list-style:none;
+    display:flex; align-items:center; gap:8px}
+  .sect > summary::-webkit-details-marker{display:none}
+  .sect > summary .n{margin-left:auto; font-size:12.5px; color:var(--ink3); font-weight:400}
+  .sect > summary::before{content:"›"; color:var(--teal2); font-size:19px; line-height:1; transition:.2s; transform:rotate(90deg)}
+  .sect[open] > summary::before{transform:rotate(-90deg)}
+  .sect > summary{border-bottom:0}
+  .sect[open] > summary{border-bottom:1px solid var(--line2)}
+  .sect .body{padding:6px 16px 14px}
+
+  .row{display:flex; align-items:center; gap:11px; padding:11px 0; border-top:1px solid var(--line2)}
+  .row:first-child{border-top:none}
+  .row .nm{flex:1; font-size:14.5px; min-width:0}
+  .row .nm small{display:block; font-size:12px; color:var(--ink3); line-height:1.45; margin-top:1px}
+  .row .tm{flex:none; font-size:12px; color:var(--ink3); font-variant-numeric:tabular-nums}
+  .row.isdone .nm .t1{text-decoration:line-through; text-decoration-color:#c3c9cd; color:var(--ink3)}
+  .row .ic{flex:none; width:22px; height:22px; border-radius:7px; display:flex; align-items:center; justify-content:center;
+    font-size:12px; background:#f0eee8; color:var(--ink3)}
+  .row.isdone .ic{background:var(--teal); color:#fff}
+  .mini{flex:none; font-size:12.5px; border:1px solid var(--line); background:#fdfcfa; color:var(--ink2);
+    border-radius:8px; padding:6px 10px; cursor:pointer; font-family:inherit; white-space:nowrap}
+
+  /* ---------- 感受 ---------- */
+  .feel .frow{margin-bottom:13px}
+  .feel .fl{font-size:13px; color:var(--ink2); margin-bottom:5px; display:flex; justify-content:space-between; gap:8px}
+  .feel .fl span{color:var(--ink3); font-size:12px}
+  .chips{display:flex; gap:6px; flex-wrap:wrap}
+  .chip{min-width:42px; height:36px; padding:0 11px; border-radius:10px; border:1px solid var(--line);
+    background:#fdfcfa; color:var(--ink2); font-size:13.5px; cursor:pointer; font-family:inherit}
+  .chip.on{background:var(--teal); border-color:var(--teal); color:#fff; font-weight:600}
+  textarea{width:100%; min-height:74px; border-radius:11px; border:1px solid var(--line); background:#fdfcfa;
+    padding:11px 12px; font-size:15px; font-family:inherit; color:var(--ink); resize:vertical; line-height:1.6}
+  textarea:focus{outline:none; border-color:var(--teal2); background:#fff}
+  .saved{font-size:11.5px; color:var(--ok); margin-top:5px; height:15px}
+
+  /* ---------- 底部固定条 ---------- */
+  .bottom{position:fixed; left:0; right:0; bottom:0; z-index:60;
+    background:rgba(255,255,255,.94); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border-top:1px solid var(--line); padding:12px 14px calc(12px + env(safe-area-inset-bottom));
+    display:none}
+  .bottom.show{display:block}
+  .bottom .in{max-width:640px; margin:0 auto; display:flex; align-items:center; gap:10px}
+  .bottom .txt{flex:1; font-size:13px; color:var(--ink2); line-height:1.45}
+  .bottom .txt b{color:var(--ink); font-weight:600}
+  .bottom button{flex:none; font-family:inherit; font-size:15px; font-weight:600; padding:12px 22px;
+    border-radius:11px; border:1px solid var(--teal); background:var(--teal); color:#fff; cursor:pointer}
+
+  /* ---------- 提醒 ---------- */
+  .ask{display:none; position:fixed; inset:0; background:rgba(30,35,38,.45); align-items:center;
+    justify-content:center; padding:20px; z-index:90}
+  .ask.show{display:flex}
+  .ask .box{background:#fff; border-radius:16px; padding:20px; width:100%; max-width:330px}
+  .ask .box h3{margin:0 0 7px; font-size:16px}
+  .ask .box p{margin:0 0 16px; font-size:13.5px; color:var(--ink2); line-height:1.6}
+  .ask .btns{display:flex; gap:9px}
+  .ask .btns button{flex:1; font-family:inherit; font-size:14px; padding:12px 0; border-radius:10px;
+    cursor:pointer; border:1px solid var(--line); background:#fdfcfa; color:var(--ink2)}
+  .ask .btns button.p{background:var(--teal); border-color:var(--teal); color:#fff; font-weight:600}
+
+  .toast{position:fixed; left:50%; bottom:110px; transform:translateX(-50%) translateY(14px); opacity:0;
+    background:#242a2e; color:#fff; font-size:13.5px; padding:11px 18px; border-radius:99px;
+    max-width:90vw; text-align:center; pointer-events:none; transition:.25s; z-index:95}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+
+  footer{text-align:center; font-size:11.5px; color:var(--ink3); margin-top:22px; line-height:1.8}
+  .warn{margin-top:16px; font-size:12.5px; line-height:1.7; background:var(--rosebg); color:#7c3c3c;
+    border-left:3px solid var(--rose); border-radius:10px; padding:11px 13px}
+
+  @media (max-width:380px){
+    .now h2{font-size:22px}
+    .now{padding:17px 15px}
+    .btn{font-size:15px; padding:13px 12px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="bar">
+    <div class="t">接下来<small id="hdSub">—</small></div>
+    <a class="vbtn" id="lnkCal" href="index.html" title="查看日历与全部记录">日历</a>
+  </div>
+  <div class="prog"><i id="progBar"></i></div>
+
+  <!-- 当前事项 -->
+  <div id="nowBox"></div>
+
+  <!-- 后续 -->
+  <details class="sect" id="sectNext">
+    <summary>接下来还有 <span class="n" id="nNext"></span></summary>
+    <div class="body" id="listNext"></div>
+  </details>
+
+  <!-- 已完成 -->
+  <details class="sect" id="sectDone">
+    <summary>今天已完成 <span class="n" id="nDone"></span></summary>
+    <div class="body" id="listDone"></div>
+  </details>
+
+  <!-- 感受 -->
+  <details class="sect feel" id="sectFeel">
+    <summary>今天的感受 <span class="n" id="nFeel"></span></summary>
+    <div class="body">
+      <div id="feels"></div>
+      <div class="frow">
+        <div class="fl">备注 <span>想到什么写什么</span></div>
+        <textarea id="note" placeholder="例如：昨晚睡了 6 小时，中午很困，晚上燥热比昨天轻一点……"></textarea>
+        <div class="saved" id="savedTip"></div>
+      </div>
+    </div>
+  </details>
+
+  <div class="warn">
+    <b>出现任意一条请先就医，不要用打卡替代就诊：</b>夜间燥热把床单浸湿 · 心慌 / 手抖 / 明显怕热 / 体重不明原因下降 · 躁动与执行力下降持续两周以上并影响工作 · 静息时也气短。
+  </div>
+
+  <footer>
+    数据保存在这台设备的浏览器里，不会上传。换设备或用「导出备份」转移。<br>
+    内容由 AI 生成，仅供健康教育参考，不构成诊断或治疗建议。
+  </footer>
+</div>
+
+<!-- 底部固定条 -->
+<div class="bottom" id="bottom">
+  <div class="in">
+    <div class="txt" id="btxt"></div>
+    <button id="bdone">完成</button>
+  </div>
+</div>
+
+<div class="ask" id="ask">
+  <div class="box">
+    <h3 id="askT">确认</h3>
+    <p id="askP"></p>
+    <div class="btns"><button id="askNo">取消</button><button class="p" id="askYes">确定</button></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   事项模板：win = 建议时间段(小时, 24 制)，mins = 建议时长(分钟)
+   顺序即执行顺序；完成后自动跳到下一个未完成项
+============================================================ */
+var TASKS = [
+  {id:'walk',    grp:'早上', t1:'出门走 15 分钟',                    d:'全程用鼻子呼吸，一旦想张嘴就减速。这一步同时拿到晨光、活动和呼吸训练。', mins:15, win:[6,9]},
+  {id:'med-am',  grp:'早上', t1:'开工前「定锚」冥想 3 分钟',          d:'闭眼，只感受呼吸进出鼻腔。走神了就回到鼻尖，不批评自己。做完直接开始今天那件事。', mins:3, win:[7,10]},
+  {id:'pts-am',  grp:'早上', t1:'按穴位：足三里 + 阴陵泉 各 1 分钟',   d:'足三里在膝下四横指；阴陵泉在小腿内侧胫骨内缘推到"拐弯"的凹陷。有酸胀感就对了。', mins:2, win:[8,11]},
+  {id:'start2',  grp:'白天', t1:'最小启动法：只做 2 分钟',             d:'把今天最重要的事砍到"小到不可能拒绝"的一步。做满 2 分钟就允许自己停 —— 是允许，不是必须。', mins:2, win:[9,12]},
+  {id:'med-pm',  grp:'白天', t1:'午后「重启」冥想 5 分钟',            d:'念头冒出来就贴个标签（计划 / 担心 / 回忆），然后放它走，回到呼吸。不要分析念头内容。', mins:5, win:[12,15]},
+  {id:'tea',     grp:'白天', t1:'一杯代茶饮',                        d:'玫瑰佛手炒麦芽款最贴合你；燥热明显选茯苓山药百合陈皮。下午 4 点前喝完。', mins:0, win:[13,16]},
+  {id:'pts-pm',  grp:'白天', t1:'烦躁时按 内关 + 太冲 各 1 分钟',      d:'内关在腕上三横指两筋之间；太冲在足背第一二趾缝往上推到骨缝尽头。烦躁上头时做，比硬扛有效。', mins:2, win:[12,18]},
+  {id:'walk-pm', grp:'傍晚', t1:'傍晚走路 20 分钟',                   d:'鼻呼吸配速，喘到想张嘴就放慢。走完顺手做 10 次"墙天使" + 10 次下巴回收。', mins:20, win:[17,20]},
+  {id:'dinner',  grp:'傍晚', t1:'晚餐清淡 + 睡前 3 小时吃完',          d:'温热为主、七分饱、每餐一份蛋白。避开辣、烫、酒、生冷。', mins:0, win:[17,20]},
+  {id:'apt-pm',  grp:'晚间', t1:'按穴位：太溪 + 三阴交 各 1 分钟',     d:'太溪在内踝与跟腱之间的凹陷；三阴交在内踝上四横指。滋阴降燥热、助眠。孕妇禁三阴交。', mins:2, win:[20,23]},
+  {id:'feet',    grp:'晚间', t1:'温水泡脚 10–15 分钟',                d:'睡前 90 分钟做，40℃ 左右，泡完擦干穿薄袜。之后别再做出汗的活动。', mins:12, win:[20,23]},
+  {id:'breath',  grp:'晚间', t1:'慢呼吸 吸 4 秒 / 呼 6 秒 共 5 分钟',   d:'呼气要轻、无声、不用力。头晕就把呼吸量减半。', mins:5, win:[21,24]},
+  {id:'scan',    grp:'晚间', t1:'睡前身体扫描冥想 10 分钟',            d:'从脚趾到头顶依次感受，只感受不评判。中途睡着了是好事，不要为了"做完"把自己叫醒。', mins:10, win:[21,24]},
+  {id:'bed',     grp:'晚间', t1:'卧室降温 + 换气 5 分钟',              d:'目标 18–22℃。对流开窗 5–10 分钟，一次解决降温、湿度、二氧化碳三件事。', mins:5, win:[21,24]},
+  {id:'sleep',   grp:'晚间', t1:'侧卧 · 闭嘴 · 鼻呼吸',                d:'薄被分层，手脚不要裹在被子里（那是主要散热口）。准备好就睡。', mins:0, win:[22,26]}
+];
+var TOTAL = TASKS.length;
+
+var GROUPS = ['早上','白天','傍晚','晚间'];
+var FEELS = [
+  {k:'sleep',  label:'睡眠质量',   hint:'昨晚睡得怎么样',   opts:['很差','偏差','一般','不错','很好']},
+  {k:'sleepy', label:'白天困意',   hint:'0 不困 · 5 撑不住', opts:['0','1','2','3','4','5']},
+  {k:'agitate',label:'烦躁程度',   hint:'0 平静 · 5 坐立不安', opts:['0','1','2','3','4','5']},
+  {k:'heat',   label:'夜间燥热',   hint:'0 不热 · 5 睡不着', opts:['0','1','2','3','4','5']},
+  {k:'focus',  label:'脑子清楚度', hint:'0 一团雾 · 5 清爽', opts:['0','1','2','3','4','5']},
+  {k:'breath', label:'气短感觉',   hint:'0 没有 · 3 明显',   opts:['无','轻','中','明显']}
+];
+var KEY = 'breath-checkin-v1';
+var BUFFER_MIN = 1;
+
+/* ================= 存储（与日历版共用同一份数据）================= */
+var DB = {ver:1, days:{}, settings:{sound:true}};
+var timer = null, actx = null;
+
+function S(){ if(!DB.settings) DB.settings = {sound:true}; return DB.settings; }
+function load(){
+  try{
+    var raw = localStorage.getItem(KEY);
+    if(raw){ var o = JSON.parse(raw); if(o && o.days) DB = o; }
+    if(!DB.settings) DB.settings = {sound:true};
+  }catch(e){ toast('读取本地数据失败'); }
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(DB)); }
+  catch(e){ toast('保存失败：浏览器存储不可用'); }
+}
+function todayKey(d){ d = d||new Date(); return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate()); }
+function p2(n){ return (n<10?'0':'')+n; }
+function dayRec(k){ if(!DB.days[k]) DB.days[k] = {done:[], feels:{}, note:'', ts:{}}; return DB.days[k]; }
+function doneOf(k){ return (DB.days[k] && DB.days[k].done) ? DB.days[k].done : []; }
+function isDone(k,id){ return doneOf(k).indexOf(id) !== -1; }
+function hasFeel(k){
+  var r = DB.days[k]; if(!r) return 0; var n=0;
+  for(var i=0;i<FEELS.length;i++){ if(r.feels[FEELS[i].k] !== undefined) n++; }
+  return n;
+}
+
+/* 提示音 */
+function playChime(seq){
+  if(!S().sound) return;
+  try{
+    var AC = window.AudioContext || window.webkitAudioContext; if(!AC) return;
+    if(!actx) actx = new AC();
+    if(actx.state === 'suspended') actx.resume();
+    var s = seq || [880, 1174.7], n = 0;
+    (function next(){
+      if(n >= s.length) return;
+      var t = actx.currentTime + 0.02;
+      var o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'sine'; o.frequency.setValueAtTime(s[n], t);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.30, t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.38);
+      o.connect(g); g.connect(actx.destination);
+      o.start(t); o.stop(t + 0.42);
+      n++; setTimeout(next, 440);
+    })();
+  }catch(e){}
+}
+var toastEl = document.getElementById('toast'), toastT = null;
+function toast(m){
+  toastEl.textContent = m; toastEl.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(function(){ toastEl.classList.remove('show'); }, 2400);
+}
+function notify(m){
+  toast(m);
+  try{ if('Notification' in window && Notification.permission === 'granted') new Notification('接下来', {body:m}); }catch(e){}
+}
+['click'].forEach(function(){
+  document.addEventListener('click', function once(){
+    try{ if('Notification' in window && Notification.permission === 'default') Notification.requestPermission(); }catch(e){}
+    document.removeEventListener('click', once);
+  }, {once:true});
+});
+
+/* ================= 时间逻辑 ================= */
+function nowHour(){ var d = new Date(); return d.getHours() + d.getMinutes()/60; }
+function isToday(k){ return k === todayKey(); }
+/* 返回 index：第一个未完成项的序号；全部完成返回 -1 */
+function nextIndex(k){
+  var d = doneOf(k);
+  for(var i=0;i<TASKS.length;i++){ if(d.indexOf(TASKS[i].id) === -1) return i; }
+  return -1;
+}
+function fmtTime(h){
+  h = Math.round(h*60)/60;
+  if(h >= 24){ return p2(Math.floor((h-24)%24)) + ':' + p2(Math.round((h-Math.floor(h))*60)) + ' 后'; }
+  return p2(Math.floor(h)) + ':' + p2(Math.round((h-Math.floor(h))*60));
+}
+function winText(t){
+  return fmtTime(t.win[0]) + ' – ' + fmtTime(t.win[1]);
+}
+
+/* ================= 渲染 ================= */
+var selected = todayKey();
+
+function render(){
+  var k = selected, today = isToday(k);
+  var d = doneOf(k).length;
+  var idx = nextIndex(k);
+  var h = new Date().getHours();
+
+  document.getElementById('hdSub').textContent = fmtDate(k) + ' · 已完成 ' + d + '/' + TOTAL;
+  document.getElementById('progBar').style.width = Math.round(d/TOTAL*100) + '%';
+
+  var nowBox = document.getElementById('nowBox');
+
+  /* ---- 全部完成 ---- */
+  if(idx === -1){
+    nowBox.innerHTML =
+      '<div class="done-card"><div class="e">🎉</div><h2>今天全部做完了</h2>' +
+      '<p>' + TOTAL + ' 项全部完成。可以到「今天的感受」里记录一下，或者明天再来。</p></div>';
+    applyBottom(null);
+    renderLists(k);
+    renderFeels(k);
+    return;
+  }
+
+  /* ---- 当前事项 ---- */
+  var t = TASKS[idx];
+  var isNow = today && (h >= t.win[0] && h < t.win[1]);
+  var isEarly = today && (h < t.win[0]);
+  var isLate = today && (h >= t.win[1]);
+
+  var tag, tagCls = '';
+  if(!today){ tag = '补打卡'; }
+  else if(isNow){ tag = '现在该做这个'; }
+  else if(isEarly){ tag = '时间还没到 · ' + fmtTime(t.win[0]) + ' 开始'; tagCls = ' soon'; }
+  else { tag = '已过建议时间 · 方便就补上'; tagCls = ' soon'; }
+
+  var timed = t.mins > 0;
+  nowBox.innerHTML =
+    '<div class="now">' +
+      '<span class="tag'+tagCls+'">' + escapeHtml(tag) + '</span>' +
+      '<h2>' + escapeHtml(t.t1) + '</h2>' +
+      '<p class="d">' + escapeHtml(t.d) + '</p>' +
+      '<div class="when">' + escapeHtml(t.grp) + ' · 建议时段 ' + winText(t) + (timed ? ' · 约 ' + t.mins + ' 分钟' : '') + '</div>' +
+      '<div class="acts">' +
+        (timed ? '<button class="btn t" id="btnTimer">⏱ 开始计时</button>' : '') +
+        '<button class="btn p" id="btnDone">✓ 完成</button>' +
+        '<button class="btn t" id="btnSkip" title="今天跳过这一项">跳过</button>' +
+      '</div>' +
+      '<div class="timer" id="timer"></div>' +
+    '</div>';
+
+  var bd = document.getElementById('btnDone');
+  if(bd) bd.onclick = function(){ complete(t.id); };
+  var bt = document.getElementById('btnTimer');
+  if(bt) bt.onclick = function(){ startTimer(t.id); };
+  var bs = document.getElementById('btnSkip');
+  if(bs) bs.onclick = function(){ skip(t.id); };
+
+  /* 底部固定条：随时可见的"完成"按钮 */
+  applyBottom(t);
+  renderLists(k);
+  renderFeels(k);
+}
+
+function applyBottom(t){
+  var el = document.getElementById('bottom');
+  if(!t){ el.classList.remove('show'); return; }
+  el.classList.add('show');
+  document.getElementById('btxt').innerHTML =
+    '当前：<b>' + escapeHtml(t.t1) + '</b>' + (t.mins ? '（约 ' + t.mins + ' 分钟）' : '');
+  document.getElementById('bdone').onclick = function(){ complete(t.id); };
+}
+
+function renderLists(k){
+  var d = doneOf(k);
+  var next = [], done = [];
+  for(var i=0;i<TASKS.length;i++){
+    (d.indexOf(TASKS[i].id) === -1 ? next : done).push(TASKS[i]);
+  }
+  /* 后续：跳过当前项（第一项已在卡片里） */
+  var rest = next.slice(1);
+  document.getElementById('nNext').textContent = rest.length ? rest.length + ' 项' : '没有了';
+  document.getElementById('listNext').innerHTML = rest.length ? rest.map(function(t){
+    return rowHtml(t, false, k);
+  }).join('') : '<div style="padding:10px 0;color:#8d959c;font-size:14px">今天的事项已经全部完成或跳过。</div>';
+
+  document.getElementById('nDone').textContent = done.length ? done.length + ' 项' : '还没有';
+  document.getElementById('listDone').innerHTML = done.length ? done.map(function(t){
+    return rowHtml(t, true, k);
+  }).join('') : '<div style="padding:10px 0;color:#8d959c;font-size:14px">完成的事项会出现在这里。</div>';
+
+  var host = document.getElementById('listNext');
+  Array.prototype.forEach.call(host.querySelectorAll('[data-act="jump"]'), function(b){
+    b.onclick = function(){ jumpTo(b.getAttribute('data-id')); };
+  });
+  var host2 = document.getElementById('listDone');
+  Array.prototype.forEach.call(host2.querySelectorAll('[data-act="undo"]'), function(b){
+    b.onclick = function(){ undo(b.getAttribute('data-id')); };
+  });
+  document.getElementById('sectDone').style.display = done.length ? '' : 'none';
+}
+
+function rowHtml(t, isdone, k){
+  var timed = t.mins > 0;
+  return '<div class="row' + (isdone?' isdone':'') + '">' +
+    '<span class="ic">' + (isdone?'✓':'›') + '</span>' +
+    '<div class="nm"><span class="t1">' + escapeHtml(t.t1) + '</span>' +
+      '<small>' + escapeHtml(t.d) + (timed ? '　·　约 ' + t.mins + ' 分钟' : '') + '</small></div>' +
+    '<span class="tm">' + winText(t) + '</span>' +
+    (isdone
+      ? '<button class="mini" data-act="undo" data-id="' + t.id + '">撤销</button>'
+      : '<button class="mini" data-act="jump" data-id="' + t.id + '">跳到</button>') +
+  '</div>';
+}
+
+function renderFeels(k){
+  var r = DB.days[k] || {feels:{}};
+  var n = 0, html = '';
+  for(var i=0;i<FEELS.length;i++){
+    var f = FEELS[i], cur = r.feels ? r.feels[f.k] : undefined;
+    if(cur !== undefined) n++;
+    html += '<div class="frow"><div class="fl">' + f.label + ' <span>' + f.hint + '</span></div><div class="chips">';
+    for(var v=0; v<f.opts.length; v++){
+      html += '<button class="chip' + (cur === v+1 ? ' on' : '') + '" data-f="' + f.k + '" data-v="' + (v+1) + '">' + f.opts[v] + '</button>';
+    }
+    html += '</div></div>';
+  }
+  document.getElementById('feels').innerHTML = html;
+  document.getElementById('nFeel').textContent = n ? n + '/6' : '未填';
+  Array.prototype.forEach.call(document.getElementById('feels').querySelectorAll('.chip'), function(el){
+    el.onclick = function(){
+      var rec = dayRec(k), fk = el.getAttribute('data-f'), val = +el.getAttribute('data-v');
+      if(rec.feels[fk] === val) delete rec.feels[fk]; else rec.feels[fk] = val;
+      save(); render();
+    };
+  });
+  document.getElementById('note').value = (DB.days[k] && DB.days[k].note) || '';
+}
+
+function fmtDate(k){
+  var p = k.split('-'), d = new Date(+p[0], +p[1]-1, +p[2]);
+  var w = ['日','一','二','三','四','五','六'][d.getDay()];
+  return (d.getMonth()+1) + ' 月 ' + d.getDate() + ' 日 周' + w;
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; });
+}
+
+/* ================= 操作 ================= */
+function complete(id){
+  var rec = dayRec(selected);
+  if(rec.done.indexOf(id) === -1){ rec.done.push(id); rec.ts[id] = Date.now(); }
+  save();
+  var wasAll = (rec.done.length >= TOTAL);
+  render();
+  var t = TASKS.filter(function(x){ return x.id === id; })[0];
+  if(wasAll) notify('今天全部完成 🎉');
+  else {
+    var ni = nextIndex(selected);
+    notify('✓ ' + (t ? t.t1 : '') + '　→ 下一项：' + (ni >= 0 ? TASKS[ni].t1 : '结束'));
+    playChime([880, 1174.7]);
+  }
+}
+function undo(id){
+  var rec = dayRec(selected), i = rec.done.indexOf(id);
+  if(i !== -1) rec.done.splice(i, 1);
+  save(); render(); toast('已撤销');
+}
+function skip(id){
+  var t = TASKS.filter(function(x){ return x.id === id; })[0];
+  var rec = dayRec(selected);
+  rec.skipped = rec.skipped || [];
+  if(rec.skipped.indexOf(id) === -1) rec.skipped.push(id);
+  if(rec.done.indexOf(id) === -1) rec.done.push(id);
+  save(); render(); toast('已跳过「' + (t?t.t1:'') + '」');
+}
+function jumpTo(id){
+  /* 把目标项之前的未完成项"跳到"它也视为跳过，直接推进到该项 */
+  var target = TASKS.filter(function(x){ return x.id === id; })[0];
+  if(!target) return;
+  var idx = TASKS.indexOf(target);
+  var rec = dayRec(selected);
+  for(var i=0;i<idx;i++){
+    var t = TASKS[i];
+    if(rec.done.indexOf(t.id) === -1){ rec.done.push(t.id); rec.skipped = rec.skipped || []; rec.skipped.push(t.id); }
+  }
+  save(); render();
+  toast('已跳到：' + target.t1);
+}
+
+/* ================= 计时器 ================= */
+var pendingStart = null;
+function startTimer(id){
+  var t = TASKS.filter(function(x){ return x.id === id; })[0];
+  if(!t || !t.mins) return;
+  if(isDone(selected, id)){ toast('这一项已经完成了'); return; }
+  timer = {id:id, total:t.mins*60, end:Date.now() + t.mins*60000, phase:'work', paused:false, leftAtPause:0};
+  tick();
+  toast('开始计时 · ' + t.mins + ' 分钟，之后还有 ' + BUFFER_MIN + ' 分钟缓冲');
+}
+function tick(){
+  if(!timer) return;
+  var el = document.getElementById('timer');
+  var ni = nextIndex(selected);
+  if(!el || ni < 0 || TASKS[ni].id !== timer.id){ timer = null; return; }
+  if(timer.paused){
+    face(el, Math.round(Math.max(0, timer.leftAtPause)/1000));
+  }else{
+    var left = Math.max(0, Math.round((timer.end - Date.now())/1000));
+    if(timer.phase === 'work' && left <= 0){
+      timer.phase = 'buffer'; timer.end = Date.now() + BUFFER_MIN*60000;
+      notify('时间到！还有 ' + BUFFER_MIN + ' 分钟缓冲，完成后记得打卡');
+      playChime(); left = BUFFER_MIN*60;
+    }
+    if(timer.phase === 'buffer' && left <= 0){
+      faceDone(el); notify('缓冲结束，别忘了打卡'); playChime([880,1174.7,880]);
+      timer = null; drain(); return;
+    }
+    face(el, left);
+  }
+  drain();
+}
+function drain(){ clearTimeout(drain._t); drain._t = setTimeout(function(){ if(timer) tick(); }, 250); }
+function face(el, left){
+  var m = Math.floor(left/60), s = left % 60, isBuf = timer.phase === 'buffer';
+  var prog = isBuf ? Math.round((1-left/(BUFFER_MIN*60))*100) : Math.round((1-left/timer.total)*100);
+  prog = Math.max(0, Math.min(100, prog));
+  el.className = 'timer show' + (isBuf ? ' warn' : '');
+  el.innerHTML =
+    '<div class="tt">' + (isBuf ? '⏳ 缓冲时间 · ' + BUFFER_MIN + ' 分钟内完成即可' : '▶ 计时中 · 建议 ' + Math.round(timer.total/60) + ' 分钟') + '</div>' +
+    '<div class="tm">' + p2(m) + ':' + p2(s) + '</div>' +
+    '<div class="tb"><i style="width:' + prog + '%"></i></div>' +
+    '<div class="ta">' +
+      (timer.paused ? '<button class="p" data-t="resume">继续</button>' : '<button data-t="pause">暂停</button>') +
+      '<button data-t="done">提前完成</button><button data-t="cancel">取消</button></div>';
+  bind(el);
+}
+function faceDone(el){
+  el.className = 'timer show warn';
+  el.innerHTML = '<div class="tt">时间到，缓冲也结束了</div><div class="tm">00:00</div>' +
+    '<div class="ta"><button class="p" data-t="done">完成打卡</button><button data-t="cancel">跳过</button></div>';
+  bind(el);
+}
+function bind(el){
+  Array.prototype.forEach.call(el.querySelectorAll('[data-t]'), function(b){
+    b.onclick = function(){
+      if(!timer) return;
+      var a = b.getAttribute('data-t'), id = timer.id;
+      if(a === 'pause'){ timer.paused = true; timer.leftAtPause = timer.end - Date.now(); tick(); }
+      else if(a === 'resume'){ timer.end = Date.now() + timer.leftAtPause; timer.paused = false; tick(); }
+      else if(a === 'done'){ timer = null; clearTimeout(drain._t); complete(id); }
+      else if(a === 'cancel'){ timer = null; clearTimeout(drain._t); render(); toast('已取消计时'); }
+    };
+  });
+}
+
+/* ================= 备注 ================= */
+var noteT = null;
+document.getElementById('note').addEventListener('input', function(){
+  var el = this, k = selected;
+  document.getElementById('savedTip').textContent = '正在保存…';
+  clearTimeout(noteT);
+  noteT = setTimeout(function(){
+    dayRec(k).note = el.value;
+    save();
+    document.getElementById('savedTip').textContent = '✓ 已保存';
+  }, 500);
+});
+
+/* ================= 确认框 ================= */
+var askCb = null, askEl = document.getElementById('ask');
+function confirmBox(title, text, onYes, yesLabel){
+  document.getElementById('askT').textContent = title;
+  document.getElementById('askP').textContent = text;
+  document.getElementById('askYes').textContent = yesLabel || '确定';
+  askCb = onYes; askEl.classList.add('show');
+}
+document.getElementById('askNo').onclick = function(){ askEl.classList.remove('show'); askCb = null; };
+document.getElementById('askYes').onclick = function(){
+  askEl.classList.remove('show'); var cb = askCb; askCb = null; if(cb) cb();
+};
+
+/* ================= 日期切换 & 状态刷新 =================
+   每分钟检查一次：只在"当前事项的时段状态"发生变化时才重绘，
+   避免打断正在输入的备注。 */
+var daySeen = todayKey();
+var lastSig = '';
+
+function signature(){
+  var ni = nextIndex(selected);
+  if(ni < 0) return 'done:' + selected;
+  var t = TASKS[ni], h = nowHour();
+  var st = isToday(selected) ? (h < t.win[0] ? 'early' : (h < t.win[1] ? 'now' : 'late')) : 'past';
+  return selected + '|' + t.id + '|' + st;
+}
+
+setInterval(function(){
+  var n = todayKey();
+  if(n !== daySeen){                       // 跨天：跟随到新的一天
+    daySeen = n;
+    if(selected < n) selected = n;
+    render();
+    notify('已是新的一天：' + fmtDate(n));
+    lastSig = signature();
+    return;
+  }
+  var sig = signature();
+  if(sig !== lastSig){ lastSig = sig; render(); }
+}, 60000);
+
+document.addEventListener('visibilitychange', function(){
+  if(document.visibilityState !== 'visible') return;
+  var n = todayKey();
+  if(n !== daySeen){ daySeen = n; selected = n; }
+  var sig = signature();
+  if(sig !== lastSig){ lastSig = sig; render(); }
+});
+
+/* ================= 启动 ================= */
+load();
+render();
+lastSig = signature();
+
+/* 离线缓存：仅在 https / localhost 下生效 */
+if('serviceWorker' in navigator && location.protocol !== 'file:'){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
+}
+
+})();
+</script>
+</body>
+</html>
