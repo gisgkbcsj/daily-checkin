@@ -44,6 +44,7 @@
   .vbtn{font-size:12.5px; color:var(--ink2); background:var(--card); border:1px solid var(--line);
     border-radius:9px; padding:8px 11px; cursor:pointer; font-family:inherit; white-space:nowrap}
   .vbtn:hover{border-color:var(--teal2); color:var(--teal)}
+  .vbtn.on{background:var(--tealbg); border-color:var(--teal2); color:var(--teal); font-weight:600}
   .vbtn:active{background:var(--tealbg)}
 
   .ynote{background:var(--card); border:1px solid var(--line); border-left:3px solid var(--teal2);
@@ -273,6 +274,7 @@
     <span id="clock" title="本地实时日期与时间"><span class="cd">—</span><span class="ct">--:--</span><span class="cs" id="clockDelta"></span></span>
     <button class="vbtn" id="btnToday">今天</button>
     <a class="vbtn" id="lnkNext" href="下一步.html" title="一次只显示当前该做的一件事">接下来 ›</a>
+    <button class="vbtn" id="btnTop" title="设为打开应用时的默认页面">★ 设为首页</button>
   </div>
 
   <input type="file" id="fileIn" accept=".json,.md,.txt,application/json,text/plain" style="display:none">
@@ -966,6 +968,20 @@ document.getElementById('btnToday').onclick = function(){
   buildYearOptions();
   renderCal(); renderDay(); renderStats(); paintClock();
 };
+
+/* 「设为首页」：让下次打开应用时直接进入「接下来」 */
+document.getElementById('btnTop').onclick = function(){
+  try{
+    var s = S(); s.lastView = 'top';
+    save();
+    this.textContent = '★ 已是首页';
+    this.classList.add('on');
+    toast('已设为首页 · 下次打开应用直接进「接下来」');
+  }catch(e){ toast('设置失败'); }
+};
+document.getElementById('lnkNext').addEventListener('click', function(){
+  try{ var s = S(); s.lastView = 'top'; save(); }catch(e){}
+});
 document.getElementById('prevM').onclick = function(){
   if(viewY <= minYear() && viewM === 0) return;
   viewM--; if(viewM < 0){ viewM = 11; viewY--; } renderCal();
