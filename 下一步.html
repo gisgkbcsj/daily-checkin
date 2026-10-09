@@ -40,6 +40,7 @@
   .vbtn{font-size:12.5px; color:var(--ink2); background:var(--card); border:1px solid var(--line);
     border-radius:9px; padding:8px 11px; cursor:pointer; font-family:inherit; white-space:nowrap; text-decoration:none}
   .vbtn:hover{border-color:var(--teal2); color:var(--teal)}
+  .vbtn.on{background:var(--tealbg); border-color:var(--teal2); color:var(--teal); font-weight:600}
   .prog{height:5px; border-radius:99px; background:#e8e4db; overflow:hidden; margin-bottom:16px}
   .prog i{display:block; height:100%; background:linear-gradient(90deg,var(--teal2),var(--teal)); width:0; transition:.4s}
 
@@ -166,6 +167,7 @@
   <div class="bar">
     <div class="t">接下来<small id="hdSub">—</small></div>
     <a class="vbtn" id="lnkCal" href="app.html" title="查看日历与全部记录">日历</a>
+    <button class="vbtn" id="btnTop" title="设为打开应用时的默认页面">★ 设为首页</button>
   </div>
   <div class="prog"><i id="progBar"></i></div>
 
@@ -669,6 +671,28 @@ document.addEventListener('visibilitychange', function(){
 load();
 render();
 lastSig = signature();
+
+/* 「设为首页」：让下次打开应用时直接进入本页；点「日历」时取消该设置 */
+(function(){
+  var LK = 'breath-checkin-v1';
+  function setLastView(v){
+    try{
+      var o = JSON.parse(localStorage.getItem(LK) || '{}');
+      if(!o.settings) o.settings = {sound:true};
+      o.settings.lastView = v;
+      localStorage.setItem(LK, JSON.stringify(o));
+    }catch(e){}
+  }
+  var btnTop = document.getElementById('btnTop');
+  btnTop.onclick = function(){
+    setLastView('top');
+    btnTop.textContent = '★ 已是首页';
+    btnTop.classList.add('on');
+    toast('已设为首页 · 下次打开应用直接进这里');
+  };
+  var lnkCal = document.getElementById('lnkCal');
+  lnkCal.addEventListener('click', function(){ setLastView('calendar'); });
+})();
 
 /* 离线缓存：仅在 https / localhost 下生效 */
 if('serviceWorker' in navigator && location.protocol !== 'file:'){
