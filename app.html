@@ -1,0 +1,1182 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2b665e">
+<meta name="description" content="呼吸练习、穴位、睡眠与感受记录的每日打卡工具。数据保存在本机，不需要联网。">
+
+<!-- ===== 装成 App 所需（PWA） ===== -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="每日打卡">
+<meta name="application-name" content="每日打卡">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22%E6%AF%8F%E6%97%A5%E6%89%93%E5%8D%A1%20%C2%B7%20%E5%91%BC%E5%90%B8%E4%B8%8E%E4%BD%9C%E6%81%AF%22%2C%22short_name%22%3A%22%E6%AF%8F%E6%97%A5%E6%89%93%E5%8D%A1%22%2C%22display%22%3A%22standalone%22%2C%22orientation%22%3A%22portrait%22%2C%22background_color%22%3A%22%23f2f0ea%22%2C%22theme_color%22%3A%22%232b665e%22%2C%22lang%22%3A%22zh-CN%22%2C%22start_url%22%3A%22.%2F%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%253D%2522http%253A%252F%252Fwww.w3.org%252F2000%252Fsvg%2522%2520width%253D%2522192%2522%2520height%253D%2522192%2522%2520viewBox%253D%25220%25200%2520192%2520192%2522%253E%253Crect%2520width%253D%2522192%2522%2520height%253D%2522192%2522%2520fill%253D%2522%25232b665e%2522%252F%253E%253Ccircle%2520cx%253D%252296%2522%2520cy%253D%2522106%2522%2520r%253D%252262%2522%2520fill%253D%2522none%2522%2520stroke%253D%2522%2523fff%2522%2520stroke-width%253D%25227%2522%2520opacity%253D%2522.32%2522%252F%253E%253Cpath%2520d%253D%2522M96%252088%2520C104%252067%2520128%252058%2520152%252063%2522%2520fill%253D%2522none%2522%2520stroke%253D%2522%2523fff%2522%2520stroke-width%253D%252210%2522%2520stroke-linecap%253D%2522round%2522%252F%253E%253Cpath%2520d%253D%2522M96%2520110%2520C87%2520131%252063%2520140%252040%2520133%2522%2520fill%253D%2522none%2522%2520stroke%253D%2522%2523fff%2522%2520stroke-width%253D%252215%2522%2520stroke-linecap%253D%2522round%2522%252F%253E%253Ccircle%2520cx%253D%252296%2522%2520cy%253D%2522101%2522%2520r%253D%252213%2522%2520fill%253D%2522%2523fff%2522%252F%253E%253C%252Fsvg%253E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%22%7D%5D%7D">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22192%22%20height%3D%22192%22%20viewBox%3D%220%200%20192%20192%22%3E%3Crect%20width%3D%22192%22%20height%3D%22192%22%20fill%3D%22%232b665e%22%2F%3E%3Ccircle%20cx%3D%2296%22%20cy%3D%22106%22%20r%3D%2262%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20opacity%3D%22.32%22%2F%3E%3Cpath%20d%3D%22M96%2088%20C104%2067%20128%2058%20152%2063%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%2210%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M96%20110%20C87%20131%2063%20140%2040%20133%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%2215%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2296%22%20cy%3D%22101%22%20r%3D%2213%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22192%22%20height%3D%22192%22%20viewBox%3D%220%200%20192%20192%22%3E%3Crect%20width%3D%22192%22%20height%3D%22192%22%20fill%3D%22%232b665e%22%2F%3E%3Ccircle%20cx%3D%2296%22%20cy%3D%22106%22%20r%3D%2262%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20opacity%3D%22.32%22%2F%3E%3Cpath%20d%3D%22M96%2088%20C104%2067%20128%2058%20152%2063%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%2210%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M96%20110%20C87%20131%2063%20140%2040%20133%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%2215%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2296%22%20cy%3D%22101%22%20r%3D%2213%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+
+<title>每日打卡 · 呼吸与作息</title>
+<style>
+  :root{
+    --bg:#f2f0ea; --card:#fff; --line:#e5e0d6; --line2:#f0ece4;
+    --ink:#242a2e; --ink2:#5a646d; --ink3:#8d959c;
+    --teal:#2b665e; --teal2:#3d8479; --tealbg:#e8f2ef;
+    --amber:#96682a; --amberbg:#fbf3e4;
+    --rose:#9c4848; --rosebg:#faeded;
+    --ok:#2f7d5c;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink); font-size:16px; line-height:1.65;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-text-size-adjust:100%;
+  }
+  .app{max-width:1060px; margin:0 auto; padding:16px 12px 50px}
+
+  /* ---------- 顶栏 ---------- */
+  .top{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:14px}
+  .top .dot{width:9px;height:9px;border-radius:50%;background:var(--teal2);flex:none}
+  .top h1{font-size:18px; margin:0; letter-spacing:.3px}
+  .top .sp{flex:1}
+  .vbtn{font-size:12.5px; color:var(--ink2); background:var(--card); border:1px solid var(--line);
+    border-radius:9px; padding:8px 11px; cursor:pointer; font-family:inherit; white-space:nowrap}
+  .vbtn:hover{border-color:var(--teal2); color:var(--teal)}
+  .vbtn:active{background:var(--tealbg)}
+
+  .ynote{background:var(--card); border:1px solid var(--line); border-left:3px solid var(--teal2);
+    border-radius:13px; padding:0; margin-bottom:14px; overflow:hidden}
+  .ynote > summary{list-style:none; cursor:pointer; padding:12px 15px; display:flex; align-items:center; gap:8px}
+  .ynote > summary::-webkit-details-marker{display:none}
+  .ynote > summary::before{content:"!"; flex:none; width:18px; height:18px; border-radius:50%;
+    background:var(--teal); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center}
+  .ynote > summary .t{flex:1; font-size:14.5px; font-weight:600}
+  .ynote > summary .t em{font-style:normal; font-weight:400; font-size:12px; color:var(--ink3); margin-left:6px}
+  .ynote > summary .tg{flex:none; font-size:12px; color:var(--ink3); transition:.2s}
+  .ynote[open] > summary{border-bottom:1px solid var(--line2)}
+  .ynote[open] > summary .tg{transform:rotate(180deg)}
+  .ynote .body{padding:13px 15px 15px}
+  .ynote ul{margin:0; padding:0; list-style:none}
+  .ynote li{position:relative; padding-left:17px; margin-bottom:8px; font-size:13.5px; color:var(--ink2); line-height:1.7}
+  .ynote li:last-child{margin-bottom:0}
+  .ynote li::before{content:""; position:absolute; left:4px; top:9px; width:5px; height:5px; border-radius:50%; background:var(--rose)}
+  .ynote li b{color:var(--ink)}
+  .ynote .warnline{margin-top:4px; padding:11px 13px; background:var(--rosebg); border-radius:10px;
+    font-size:13px; color:#7c3c3c; line-height:1.7}
+  .ynote .warnline b{color:#6d3232}
+
+  #clock{display:inline-flex; align-items:baseline; gap:7px; font-size:13.5px; color:var(--ink2);
+    background:var(--card); border:1px solid var(--line); border-radius:9px; padding:7px 11px; white-space:nowrap}
+  #clock .cd{font-weight:600; color:var(--ink)}
+  #clock .ct{font-variant-numeric:tabular-nums; color:var(--teal); font-weight:600}
+  #clock .cs{font-size:11px; color:var(--ink3)}
+
+  .setrow{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:14px;
+    background:var(--card); border:1px solid var(--line); border-radius:12px; padding:9px 11px}
+  .setrow .lab{font-size:12.5px; color:var(--ink3); margin-right:2px}
+  .setrow .sp{flex:1}
+  .sbtn{font-size:12.5px; color:var(--ink2); background:#fdfcfa; border:1px solid var(--line);
+    border-radius:9px; padding:7px 11px; cursor:pointer; font-family:inherit; white-space:nowrap}
+  .sbtn:hover{border-color:var(--teal2); color:var(--teal)}
+  .sbtn.on{background:var(--tealbg); border-color:var(--teal2); color:var(--teal); font-weight:600}
+
+  /* ---------- 布局 ---------- */
+  .grid{display:grid; grid-template-columns:1fr; gap:14px}
+  @media (min-width:900px){ .grid{grid-template-columns:1fr 1fr; align-items:start} }
+
+  .panel{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px}
+  .panel h2{font-size:13.5px; margin:0 0 11px; color:var(--ink2); font-weight:600; letter-spacing:.4px}
+
+  /* ---------- 日历 ---------- */
+  .cal-h{display:flex; align-items:center; gap:7px; margin-bottom:11px}
+  .cal-h .m{flex:1; text-align:center; font-size:16px; font-weight:600; line-height:1.2}
+  .cal-h .m small{display:block; font-size:11.5px; color:var(--ink3); font-weight:400}
+  .nbtn{width:38px;height:38px; border-radius:10px; border:1px solid var(--line); background:#fdfcfa;
+    color:var(--ink2); font-size:17px; cursor:pointer; line-height:1; flex:none}
+  .nbtn:hover{border-color:var(--teal2); color:var(--teal)}
+  .nbtn[disabled]{opacity:.25; cursor:not-allowed}
+  select.yr{font-family:inherit; font-size:12.5px; color:var(--ink2); border:1px solid var(--line);
+    background:#fdfcfa; border-radius:9px; padding:7px 6px; max-width:110px}
+  .yrbar{margin-top:10px; font-size:12.5px; color:var(--ink3); display:flex; align-items:center; gap:5px; flex-wrap:wrap}
+
+  .dow{display:grid; grid-template-columns:repeat(7,1fr); gap:3px; margin-bottom:5px}
+  .dow div{text-align:center; font-size:11.5px; color:var(--ink3)}
+  .days{display:grid; grid-template-columns:repeat(7,1fr); gap:3px}
+  .day{
+    position:relative; aspect-ratio:1/1; border-radius:11px; border:1px solid transparent;
+    background:#faf9f6; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    cursor:pointer; font-size:15px; color:var(--ink); padding:2px; transition:.12s;
+  }
+  .day:hover{background:var(--tealbg)}
+  .day.out{color:#c6cbcf; background:transparent; cursor:default}
+  .day.out:hover{background:transparent}
+  .day.future{color:#b6bcc1}
+  .day.today{border-color:var(--teal2); font-weight:700}
+  .day.today::after{content:""; position:absolute; bottom:4px; width:4px;height:4px;border-radius:50%;background:var(--teal2)}
+  .day.sel{background:var(--teal); color:#fff; border-color:var(--teal)}
+  .day.sel::after{background:rgba(255,255,255,.7)}
+  .day.sel .frac,.day.sel .feel{color:rgba(255,255,255,.85)}
+  .day .frac{font-size:9.5px; color:var(--ink3); line-height:1.1; margin-top:1px}
+  .day .feel{font-size:10px; line-height:1; margin-top:1px}
+  .day.full{background:#dcece6}
+  .day.full:hover{background:#cfe4dc}
+  .day.full.sel{background:var(--teal)}
+  .legend{margin-top:11px; font-size:11.5px; color:var(--ink3); line-height:1.75}
+  .legend b{color:var(--ink2); font-weight:600}
+
+  /* ---------- 当天详情 ---------- */
+  .dhead{display:flex; align-items:flex-start; gap:10px; margin-bottom:2px}
+  .dhead .d{flex:1; font-size:17px; font-weight:600; line-height:1.35}
+  .dhead .p{font-size:12.5px; color:var(--teal); font-weight:600; white-space:nowrap; padding-top:3px}
+  .clx{display:none; flex:none; width:34px;height:34px;border-radius:50%; border:1px solid var(--line);
+    background:#fdfcfa; color:var(--ink2); font-size:16px; line-height:1; cursor:pointer}
+  .bar{height:6px; border-radius:99px; background:#eeebe4; overflow:hidden; margin:9px 0 15px}
+  .bar i{display:block; height:100%; background:linear-gradient(90deg,var(--teal2),var(--teal)); width:0; transition:.35s}
+
+  .grp{margin-bottom:13px}
+  .grp > .gt{font-size:11.5px; color:var(--ink3); letter-spacing:1px; margin-bottom:5px}
+
+  .item{border-top:1px solid var(--line2); padding:8px 0}
+  .grp .item:first-of-type{border-top:none}
+  .item .row{display:flex; align-items:center; gap:11px}
+  .cb{
+    flex:none; width:26px; height:26px; border-radius:8px; border:1.7px solid #cfd6da; background:#fff;
+    cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; color:#fff; font-size:14px;
+  }
+  .cb:hover{border-color:var(--teal2)}
+  .cb.on{background:var(--teal); border-color:var(--teal)}
+  .nm{flex:1; font-size:15px; cursor:pointer; min-width:0}
+  .nm small{display:block; font-size:12px; color:var(--ink3); line-height:1.45; margin-top:1px}
+  .item.done .nm{color:var(--ink3)}
+  .item.done .nm .t1{text-decoration:line-through; text-decoration-color:#c3c9cd}
+  .mini{flex:none; font-size:12.5px; border:1px solid var(--line); background:#fdfcfa; color:var(--ink2);
+    border-radius:9px; padding:7px 10px; cursor:pointer; font-family:inherit; white-space:nowrap}
+  .mini:hover{border-color:var(--teal2); color:var(--teal)}
+
+  /* 计时器 */
+  .timer{display:none; margin:9px 0 2px 37px; padding:12px 13px; border-radius:12px; background:var(--tealbg); border:1px solid #cfe4dc}
+  .timer.show{display:block}
+  .timer .tt{font-size:12.5px; color:var(--teal); margin-bottom:4px}
+  .timer .tm{font-size:33px; font-weight:700; color:var(--teal); font-variant-numeric:tabular-nums; line-height:1.1; letter-spacing:1px}
+  .timer .tb{height:5px; border-radius:99px; background:#cfe4dc; overflow:hidden; margin:8px 0 10px}
+  .timer .tb i{display:block; height:100%; background:var(--teal); width:0; transition:width .25s linear}
+  .timer .ta{display:flex; gap:7px; flex-wrap:wrap}
+  .timer .ta button{font-size:13px; font-family:inherit; border-radius:9px; padding:8px 13px; cursor:pointer;
+    border:1px solid var(--line); background:#fff; color:var(--ink2)}
+  .timer .ta button.p{background:var(--teal); border-color:var(--teal); color:#fff}
+  .timer.warn{background:var(--amberbg); border-color:#ecdcb8}
+  .timer.warn .tt,.timer.warn .tm{color:var(--amber)}
+  .timer.warn .tb{background:#ecdcb8}
+  .timer.warn .tb i{background:var(--amber)}
+
+  /* ---------- 感觉记录 ---------- */
+  .feelbox{border-top:1px solid var(--line2); margin-top:6px; padding-top:13px}
+  .feelbox h3{font-size:13px; margin:0 0 10px; color:var(--ink2); font-weight:600}
+  .frow{margin-bottom:11px}
+  .frow .fl{font-size:13px; color:var(--ink2); margin-bottom:5px; display:flex; justify-content:space-between; gap:8px}
+  .frow .fl span{color:var(--ink3); font-size:12px; text-align:right}
+  .chips{display:flex; gap:5px; flex-wrap:wrap}
+  .chip{min-width:40px; height:36px; padding:0 10px; border-radius:10px; border:1px solid var(--line); background:#fdfcfa;
+    color:var(--ink2); font-size:13.5px; cursor:pointer; font-family:inherit}
+  .chip:hover{border-color:var(--teal2)}
+  .chip.on{background:var(--teal); border-color:var(--teal); color:#fff; font-weight:600}
+  textarea{width:100%; min-height:80px; border-radius:11px; border:1px solid var(--line); background:#fdfcfa;
+    padding:11px 12px; font-size:15px; font-family:inherit; color:var(--ink); resize:vertical; line-height:1.6}
+  textarea:focus{outline:none; border-color:var(--teal2); background:#fff}
+  .saved{font-size:11.5px; color:var(--ok); margin-top:5px; height:16px}
+
+  /* ---------- 穴位速查 ---------- */
+  details.ref{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:0; margin-top:14px; overflow:hidden}
+  details.ref > summary{padding:15px; cursor:pointer; font-size:14px; font-weight:600; color:var(--ink); list-style:none;
+    display:flex; align-items:center; gap:8px}
+  details.ref > summary::-webkit-details-marker{display:none}
+  details.ref > summary::before{content:"◎"; color:var(--teal2); font-size:15px}
+  details.ref[open] > summary{border-bottom:1px solid var(--line2)}
+  details.ref .body{padding:14px 15px 18px}
+  .apt{border-left:3px solid var(--tealbg); padding-left:11px; margin-bottom:14px}
+  .apt h4{margin:0 0 3px; font-size:14.5px; color:var(--teal)}
+  .apt .loc{font-size:13px; color:var(--ink2); margin:0 0 3px}
+  .apt .use{font-size:13px; color:var(--ink3); margin:0}
+  .refnote{font-size:12.5px; color:#7c3c3c; background:var(--rosebg); border-radius:10px; padding:11px 13px; line-height:1.7; margin-top:6px}
+
+  /* ---------- 统计 ---------- */
+  .stats{display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin-bottom:10px}
+  .st{background:#faf9f6; border-radius:10px; padding:10px 5px; text-align:center}
+  .st .v{font-size:19px; font-weight:700; color:var(--teal)}
+  .st .k{font-size:10.5px; color:var(--ink3); margin-top:1px}
+  .tips{font-size:13px; color:var(--ink2); line-height:1.75}
+  .tips em{font-style:normal; color:var(--teal); font-weight:600}
+
+  .warn{margin-top:13px; font-size:12.5px; line-height:1.7; background:var(--rosebg); color:#7c3c3c;
+    border-left:3px solid var(--rose); border-radius:10px; padding:11px 13px}
+
+  /* ---------- 弹窗 ---------- */
+  .ask{display:none; position:fixed; inset:0; background:rgba(30,35,38,.42); align-items:center; justify-content:center; padding:20px; z-index:90}
+  .ask.show{display:flex}
+  .ask .box{background:#fff; border-radius:15px; padding:20px; width:100%; max-width:330px}
+  .ask .box h3{margin:0 0 6px; font-size:16px}
+  .ask .box p{margin:0 0 16px; font-size:13.5px; color:var(--ink2)}
+  .ask .btns{display:flex; gap:9px}
+  .ask .btns button{flex:1; font-family:inherit; font-size:14px; padding:12px 0; border-radius:10px; cursor:pointer; border:1px solid var(--line); background:#fdfcfa; color:var(--ink2)}
+  .ask .btns button.p{background:var(--teal); border-color:var(--teal); color:#fff; font-weight:600}
+
+  .toast{position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(14px); opacity:0;
+    background:#242a2e; color:#fff; font-size:13.5px; padding:11px 18px; border-radius:99px; max-width:90vw; text-align:center;
+    pointer-events:none; transition:.25s; z-index:95}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+
+  #backdrop{display:none}
+
+  footer{text-align:center; font-size:11.5px; color:var(--ink3); margin-top:20px; line-height:1.8}
+
+  /* ============ 手机端：事项弹窗 ============ */
+  @media (max-width:899px){
+    .app{padding:14px 10px 44px}
+    .clx{display:flex; align-items:center; justify-content:center}
+
+    #detail{
+      position:fixed; left:0; right:0; bottom:0; z-index:85;
+      max-height:90vh; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch;
+      border-radius:20px 20px 0 0; border:1px solid var(--line); border-bottom:none;
+      padding:18px 15px calc(24px + env(safe-area-inset-bottom));
+      box-shadow:0 -8px 34px rgba(0,0,0,.14);
+      transform:translateY(105%); transition:transform .28s cubic-bezier(.32,.72,.3,1);
+      visibility:hidden;
+    }
+    #detail.open{transform:translateY(0); visibility:visible}
+    #detail::before{content:""; display:block; width:40px; height:4px; border-radius:99px;
+      background:#dad5cb; margin:-6px auto 12px}
+    #backdrop{display:block; position:fixed; inset:0; background:rgba(28,32,35,.4);
+      opacity:0; pointer-events:none; transition:opacity .25s; z-index:80}
+    #backdrop.show{opacity:1; pointer-events:auto}
+    .day{font-size:14px; border-radius:10px}
+    .dhead .d{font-size:16.5px}
+    .ynote > summary{padding:11px 13px}
+    .ynote > summary .t em{display:none}
+    #clock .cs{display:none}
+  }
+  @media (max-width:360px){
+    .chip{min-width:34px; padding:0 8px; font-size:13px}
+    .mini{padding:6px 8px; font-size:12px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="top">
+    <span class="dot"></span>
+    <h1>每日打卡</h1>
+    <span class="sp"></span>
+    <span id="clock" title="本地实时日期与时间"><span class="cd">—</span><span class="ct">--:--</span><span class="cs" id="clockDelta"></span></span>
+    <button class="vbtn" id="btnToday">今天</button>
+  </div>
+
+  <input type="file" id="fileIn" accept=".json,.md,.txt,application/json,text/plain" style="display:none">
+
+  <!-- ================= 设置 ================= -->
+  <div class="setrow">
+    <span class="lab">设置</span>
+    <button class="sbtn" id="btnSound">🔔 提示音：开</button>
+    <button class="sbtn" id="btnExport">⬇ 导出备份</button>
+    <button class="sbtn" id="btnImport">⬆ 导入备份</button>
+    <span class="sp"></span>
+    <button class="sbtn" id="btnClear">清空</button>
+  </div>
+
+  <!-- ================= 日常注意事项（置顶） ================= -->
+  <details class="ynote">
+    <summary><span class="t">日常注意事项</span><span class="tg">▾</span></summary>
+    <div class="body">
+      <ul>
+        <li><b>别乱进补。</b>人参、鹿茸、桂圆、羊肉、海马、酒 —— 转凉期进补季最容易踩，有燥热感的话这些会加重。不确定体质就先别补。</li>
+        <li><b>泡脚要提前 90 分钟</b>（不是临睡前）。太晚、太烫、泡完立刻钻厚被，都会让你更清醒。</li>
+        <li><b>手脚别裹紧。</b>它们是主要散热口，捂住只会更闷更热。</li>
+        <li><b>别刻意深呼吸、别憋气。</b>气短时"用力吸"是反向操作。</li>
+        <li><b>午睡不超过 20 分钟。</b>超过 30 分钟醒来更懵，还会影响晚间入睡。</li>
+        <li><b>下午 2 点后不碰咖啡因。</b>躁动明显时咖啡因要减半或停掉 —— 它会把"有点烦躁"放大成"坐立不安"。</li>
+        <li><b>代茶饮不与安眠药、抗焦虑药同服</b>，错开 2 小时以上；不确定先问医生。</li>
+        <li><b>喝水够但不要太晚。</b>睡前 1 小时内不超过 200ml，白天喝足。</li>
+        <li><b>不要用刷手机缓解躁动。</b>短视频的即时反馈会削弱你对慢任务的耐受度。</li>
+        <li><b>冥想不要加码。</b>10 分钟做完就停，做满一周比做满一小时有用。</li>
+        <li><b>祛湿别喝错。</b>炒薏米（不是生薏米）+ 赤小豆（不是红豆）、不加米、每天 1 杯；偏温燥的祛湿药要慎用。</li>
+        <li><b>家里再潮也别整天关窗开暖气。</b>密闭 + 温热 + 潮湿是鼻塞、口呼吸和第二天昏沉的最佳组合。</li>
+      </ul>
+      <div class="warnline">
+        <b>出现任意一条请先就医，不要用打卡替代就诊：</b>夜间燥热把床单浸湿 · 心慌 / 手抖 / 明显怕热 / 体重不明原因下降 · 躁动与执行力下降持续两周以上并影响工作 · 静息时也气短 · 食欲差伴随体重明显下降 · 情绪低落超过两周。<br>
+        <b>建议检查：</b>血常规 + 铁蛋白、甲状腺功能（TSH / FT3 / FT4）、空腹血糖 + 糖化、维生素 D；有打鼾或夜间憋醒加做睡眠监测。
+      </div>
+    </div>
+  </details>
+
+  <div class="grid">
+    <!-- ================= 日历 ================= -->
+    <div class="panel">
+      <div class="cal-h">
+        <button class="nbtn" id="prevM" title="上个月">‹</button>
+        <div class="m" id="mTitle">—<small></small></div>
+        <button class="nbtn" id="nextM" title="下个月">›</button>
+      </div>
+      <div class="dow"><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>日</div></div>
+      <div class="days" id="days"></div>
+      <div class="yrbar">跳到　<select class="yr" id="selY" aria-label="选择年份"></select>　年　<select class="yr" id="selM" aria-label="选择月份"></select></div>
+      <div class="legend">
+        <b>数字</b> = 当天完成项 / 总数　·　<b>深色底</b> = 全部完成　·　<b>小圆点</b> = 今天<br>
+        <b>感受标记：</b>🙂 状态不错　😐 一般　😣 不太好　△ 写了备注
+      </div>
+    </div>
+
+    <!-- ================= 当天详情（手机上从底部弹出） ================= -->
+    <div class="panel" id="detail">
+      <div class="dhead">
+        <div class="d" id="dTitle">—</div>
+        <div class="p" id="dProg">—</div>
+        <button class="clx" id="btnClose" title="关闭">✕</button>
+      </div>
+      <div class="bar"><i id="dBar"></i></div>
+      <div id="items"></div>
+      <div class="feelbox">
+        <h3>今天的感受</h3>
+        <div id="feels"></div>
+        <div class="frow">
+          <div class="fl">备注：今天怎么样？ <span>想到什么写什么</span></div>
+          <textarea id="note" placeholder="例如：昨晚睡了 6 小时，中午很困，晚上燥热比昨天轻一点……"></textarea>
+          <div class="saved" id="savedTip"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 穴位速查 ================= -->
+  <details class="ref">
+    <summary>穴位速查（什么时候按哪里）</summary>
+    <div class="body">
+      <div class="apt">
+        <h4>早上 · 足三里 + 阴陵泉</h4>
+        <p class="loc"><b>足三里：</b>膝盖外侧凹陷往下四横指，胫骨外侧一横指处</p>
+        <p class="loc"><b>阴陵泉：</b>沿小腿内侧胫骨内缘往上推，推到"拐弯"的凹陷处</p>
+        <p class="use">开胃、提气、健脾祛湿。各按 1 分钟，有酸胀感即可。</p>
+      </div>
+      <div class="apt" style="border-color:#f2e2c4">
+        <h4 style="color:var(--amber)">烦躁时 · 内关 + 太冲</h4>
+        <p class="loc"><b>内关：</b>手腕横纹往上三横指，两根筋之间</p>
+        <p class="loc"><b>太冲：</b>足背第 1、2 趾缝往上推到骨缝尽头的凹陷</p>
+        <p class="use">疏肝、降躁动、缓解胸闷气短。烦躁上头时按 1 分钟，比硬扛有效。<b>太冲力度轻一些</b>，体质虚弱按 30 秒即可。</p>
+      </div>
+      <div class="apt" style="border-color:#d9e6f2">
+        <h4 style="color:#33608c">晚间 · 太溪 + 三阴交（新增）</h4>
+        <p class="loc"><b>太溪：</b>内踝尖与跟腱之间的凹陷（脚踝内侧最高点往后摸，凹下去那里）</p>
+        <p class="loc"><b>三阴交：</b>内踝尖往上四横指，贴着胫骨内侧后缘</p>
+        <p class="use">滋阴降燥热、健脾、助眠。睡前各按 1 分钟，配慢呼吸效果更好。<b>孕妇禁用三阴交。</b></p>
+      </div>
+      <div class="apt" style="border-color:#e6e1d7">
+        <h4 style="color:var(--ink2)">随时 · 膻中</h4>
+        <p class="loc"><b>膻中：</b>两乳连线中点，胸骨上</p>
+        <p class="use">气短、胸闷时用掌根顺时针轻揉 1 分钟，呼气可以放长。</p>
+      </div>
+      <div class="refnote">
+        <b>按揉通用做法：</b>拇指按住，力度以"有酸胀感但不痛"为准，顺时针揉 1 分钟。<br>
+        <b>禁忌：</b>孕妇禁用三阴交、合谷；按压处皮肤破损或红肿时跳过该穴；饭后半小时内不按腹部穴位。
+      </div>
+    </div>
+  </details>
+
+  <!-- ================= 统计与建议 ================= -->
+  <div class="panel" style="margin-top:14px">
+    <h2>最近 14 天</h2>
+    <div class="stats">
+      <div class="st"><div class="v" id="st1">—</div><div class="k">打卡天数</div></div>
+      <div class="st"><div class="v" id="st2">—</div><div class="k">平均完成</div></div>
+      <div class="st"><div class="v" id="st3">—</div><div class="k">平均困意</div></div>
+      <div class="st"><div class="v" id="st4">—</div><div class="k">平均睡眠</div></div>
+    </div>
+    <div class="tips" id="tips">开始打卡后，这里会给出简单提示。</div>
+    <div class="warn">
+      <b>请把这件事放在打卡之前：</b>如果出现「夜间盗汗把床单浸湿」「心慌、手抖、明显怕热、体重不明原因下降」「躁动与执行力下降持续两周以上」或「静息时也气短」—— 请先就医，<b>不要用打卡替代就诊</b>。建议检查：血常规 + 铁蛋白、甲状腺功能（TSH / FT3 / FT4）、空腹血糖 + 糖化、维生素 D；有打鼾或夜间憋醒加做睡眠监测。
+    </div>
+  </div>
+
+  <footer>
+    数据保存在这台设备的浏览器里，不会上传。换设备或清理浏览器数据会丢失，重要记录请用「导出」备份。<br>
+    内容由 AI 生成，仅供健康教育参考，不构成诊断或治疗建议。
+  </footer>
+</div>
+
+<div id="backdrop"></div>
+
+<div class="ask" id="ask">
+  <div class="box">
+    <h3 id="askT">确认</h3>
+    <p id="askP"></p>
+    <div class="btns">
+      <button id="askNo">取消</button>
+      <button class="p" id="askYes">确定</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ================= 事项模板 =================
+   mins > 0 的项目带计时（结束后额外给 1 分钟缓冲）
+============================================= */
+var TASKS = [
+  {id:'walk',    grp:'早上', t1:'出门走 15 分钟',                 d:'全程用鼻子呼吸，一旦想张嘴就减速', mins:15},
+  {id:'med-am',  grp:'早上', t1:'开工前「定锚」冥想 3 分钟',       d:'只感受呼吸进出鼻腔，走神就回到鼻尖', mins:3},
+  {id:'pts-am',  grp:'早上', t1:'按穴位：足三里 + 阴陵泉 各 1 分钟', d:'开胃 + 健脾祛湿，有酸胀感即可', mins:2},
+  {id:'start2',  grp:'白天', t1:'最小启动法：只做 2 分钟',         d:'砍到不可能拒绝的一步，做满 2 分钟就允许自己停', mins:2},
+  {id:'med-pm',  grp:'白天', t1:'午后「重启」冥想 5 分钟',         d:'念头冒出来 → 贴个标签 → 放它走', mins:5},
+  {id:'tea',     grp:'白天', t1:'一杯代茶饮',                     d:'下午 4 点前喝完；茯苓山药百合陈皮款更贴合你', mins:0},
+  {id:'pts-pm',  grp:'白天', t1:'烦躁时按 内关 + 太冲 各 1 分钟',   d:'烦躁上头时做，比硬扛有效；太冲力度轻些', mins:2},
+  {id:'walk-pm', grp:'傍晚', t1:'傍晚走路 20 分钟',               d:'鼻呼吸配速，喘到想张嘴就放慢', mins:20},
+  {id:'dinner',  grp:'傍晚', t1:'晚餐清淡 + 睡前 3 小时吃完',      d:'避开辣、烫、酒、生冷', mins:0},
+  {id:'apt-pm',  grp:'晚间', t1:'按穴位：太溪 + 三阴交 各 1 分钟',  d:'滋阴降燥热、助眠；孕妇禁三阴交', mins:2},
+  {id:'feet',    grp:'晚间', t1:'温水泡脚 10–15 分钟',            d:'睡前 90 分钟做，40℃ 左右，泡完擦干穿薄袜', mins:12},
+  {id:'breath',  grp:'晚间', t1:'慢呼吸 吸 4 秒 / 呼 6 秒 共 5 分钟', d:'呼气要轻、无声、不用力', mins:5},
+  {id:'scan',    grp:'晚间', t1:'睡前身体扫描冥想 10 分钟',        d:'脚趾 → 头顶，只感受不评判；睡着就直接睡', mins:10},
+  {id:'bed',     grp:'晚间', t1:'卧室降温 + 换气 5 分钟',          d:'目标 18–22℃，对流开窗；同时降湿度和二氧化碳', mins:5},
+  {id:'sleep',   grp:'晚间', t1:'侧卧 · 闭嘴 · 鼻呼吸',            d:'薄被分层，手脚不要裹在被子里', mins:0}
+];
+
+var GROUPS = ['早上','白天','傍晚','晚间'];
+var FEELS = [
+  {k:'sleep',  label:'睡眠质量',   hint:'昨晚睡得怎么样',   opts:['很差','偏差','一般','不错','很好']},
+  {k:'sleepy', label:'白天困意',   hint:'0 不困 · 5 撑不住', opts:['0','1','2','3','4','5']},
+  {k:'agitate',label:'烦躁程度',   hint:'0 平静 · 5 坐立不安', opts:['0','1','2','3','4','5']},
+  {k:'heat',   label:'夜间燥热',   hint:'0 不热 · 5 睡不着', opts:['0','1','2','3','4','5']},
+  {k:'focus',  label:'脑子清楚度', hint:'0 一团雾 · 5 清爽', opts:['0','1','2','3','4','5']},
+  {k:'breath', label:'气短感觉',   hint:'0 没有 · 3 明显',   opts:['无','轻','中','明显']}
+];
+var KEY = 'breath-checkin-v1';
+var BUFFER_MIN = 1;                 // 缓冲时间（分钟）
+var TOTAL = TASKS.length;
+var YEAR_SPAN = 100;                // 日期范围：±100 年
+
+/* ================= 存储 ================= */
+var DB = {ver:1, days:{}, settings:{sound:true}};
+var timer = null;
+
+/* 声音与偏好设置 */
+function S(){
+  if(!DB.settings) DB.settings = {sound:true};
+  return DB.settings;
+}
+
+/* 提示音：用 Web Audio 现场合成，不需要任何音频文件 */
+var actx = null;
+function playChime(times){
+  if(!S().sound) return;
+  try{
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC) return;
+    if(!actx) actx = new AC();
+    if(actx.state === 'suspended') actx.resume();
+    var seq = times || [880, 1174.7];
+    var n = 0;
+    (function next(){
+      if(n >= seq.length) return;
+      var t = actx.currentTime + 0.02;
+      var o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(seq[n], t);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.30, t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.38);
+      o.connect(g); g.connect(actx.destination);
+      o.start(t); o.stop(t + 0.42);
+      n++;
+      setTimeout(next, 440);
+    })();
+  }catch(e){ /* 静默失败，不影响计时功能 */ }
+}
+
+function load(){
+  try{
+    var raw = localStorage.getItem(KEY);
+    if(raw){
+      var o = JSON.parse(raw);
+      if(o && o.days) DB = o;
+      if(!DB.settings) DB.settings = {sound:true};
+    }
+  }catch(e){ toast('读取本地数据失败，已从空白开始'); }
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(DB)); }
+  catch(e){ toast('保存失败：浏览器存储不可用或已满'); }
+}
+
+/* ================= 工具 ================= */
+function todayKey(d){
+  d = d || new Date();
+  var m = d.getMonth()+1, day = d.getDate();
+  return d.getFullYear() + '-' + (m<10?'0':'')+m + '-' + (day<10?'0':'')+day;
+}
+function parseKey(k){ var p = k.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
+function dayRec(k){ if(!DB.days[k]) DB.days[k] = {done:[], feels:{}, note:'', ts:{}}; return DB.days[k]; }
+function doneOf(k){ return (DB.days[k] && DB.days[k].done) ? DB.days[k].done : []; }
+function isDone(k,id){ return doneOf(k).indexOf(id) !== -1; }
+function hasFeel(k){
+  var r = DB.days[k]; if(!r) return 0;
+  var n = 0; for(var i=0;i<FEELS.length;i++){ if(r.feels[FEELS[i].k] !== undefined) n++; }
+  return n;
+}
+function avg(a){ if(!a.length) return null; var s=0; for(var i=0;i<a.length;i++) s+=a[i]; return s/a.length; }
+function fmtDate(k){
+  var d = parseKey(k), w = ['日','一','二','三','四','五','六'][d.getDay()];
+  return d.getMonth()+1 + ' 月 ' + d.getDate() + ' 日 · 周' + w;
+}
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function pad2(n){ return (n<10?'0':'')+n; }
+
+var toastEl = document.getElementById('toast'), toastT = null;
+function toast(msg){
+  toastEl.textContent = msg; toastEl.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(function(){ toastEl.classList.remove('show'); }, 2600);
+}
+var askCb = null, askEl = document.getElementById('ask');
+function confirmBox(title, text, onYes, yesLabel){
+  document.getElementById('askT').textContent = title;
+  document.getElementById('askP').textContent = text;
+  document.getElementById('askYes').textContent = yesLabel || '确定';
+  askCb = onYes; askEl.classList.add('show');
+}
+document.getElementById('askNo').onclick = function(){ askEl.classList.remove('show'); askCb = null; };
+document.getElementById('askYes').onclick = function(){
+  askEl.classList.remove('show'); var cb = askCb; askCb = null; if(cb) cb();
+};
+askEl.addEventListener('click', function(e){ if(e.target === this){ this.classList.remove('show'); askCb = null; } });
+
+/* ================= 状态（日期全部实时读取本机时间） ================= */
+var YEAR_SPAN = 100;                       // 日期范围：今天 ± 100 年
+function curYear(){ return new Date().getFullYear(); }
+function minYear(){ return curYear() - YEAR_SPAN; }
+function maxYear(){ return curYear() + YEAR_SPAN; }
+
+var T0 = new Date();
+var viewY = T0.getFullYear(), viewM = T0.getMonth();
+var selected = todayKey(T0);
+var daySeen = selected;                    // 用于检测跨午夜
+var sheetOpen = false;                     // 手机端弹窗是否打开
+var clockT = null;
+var isSheet = function(){ return window.matchMedia('(max-width:899px)').matches; };
+
+function fmtFull(d){
+  var w = ['日','一','二','三','四','五','六'][d.getDay()];
+  return d.getFullYear() + ' 年 ' + (d.getMonth()+1) + ' 月 ' + d.getDate() + ' 日 周' + w;
+}
+function paintClock(){
+  var d = new Date();
+  var cd = document.getElementById('clock').querySelector('.cd');
+  var ct = document.getElementById('clock').querySelector('.ct');
+  var cs = document.getElementById('clockDelta');
+  if(cd) cd.textContent = fmtFull(d);
+  if(ct) ct.textContent = pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+  if(cs && selected !== todayKey(d)) cs.textContent = '· 正在看过去';
+  else if(cs) cs.textContent = '';
+}
+/* 跨午夜 / 页面长时间挂着时，把"今天"和日期范围重新同步 */
+function checkDayRollover(){
+  var now = todayKey();
+  if(now === daySeen){ paintClock(); return; }
+  var wasSel = daySeen;
+  daySeen = now;
+  buildYearOptions();                       // 年份范围随本机日期推移
+  if(selected === wasSel) selected = now;   // 一直停在"今天"的话，跟着跳到新的一天
+  viewY = new Date().getFullYear();
+  viewM = new Date().getMonth();
+  if(timer) timer = null;                   // 跨天后结束未完成的计时
+  renderCal(); renderDay(); renderStats(); paintClock();
+  toast('已是新的一天：' + fmtFull(new Date()));
+}
+function startClock(){
+  paintClock();
+  clearInterval(clockT);
+  clockT = setInterval(checkDayRollover, 20000);
+}
+/* 从后台切回来时立刻校准 */
+document.addEventListener('visibilitychange', function(){
+  if(document.visibilityState === 'visible') checkDayRollover();
+});
+
+function buildYearOptions(){
+  var ys = document.getElementById('selY');
+  var from = minYear(), to = maxYear();
+  if(ys.options.length && +ys.options[0].value === from && +ys.options[ys.options.length-1].value === to) return;
+  var html = '';
+  for(var y = from; y <= to; y++) html += '<option value="' + y + '">' + y + '</option>';
+  ys.innerHTML = html;
+  document.getElementById('selM').innerHTML = (function(){
+    var mo = '';
+    for(var m = 0; m < 12; m++) mo += '<option value="' + m + '">' + (m+1) + ' 月</option>';
+    return mo;
+  })();
+}
+
+/* ================= 日历 ================= */
+function renderCal(){
+  var inMonth = countInMonth();
+  document.getElementById('mTitle').innerHTML =
+    (viewM+1) + ' 月　' + viewY + '<small>' + inMonth + ' 天有记录</small>';
+
+  var first = new Date(viewY, viewM, 1);
+  var startIdx = (first.getDay() + 6) % 7;          // 周一为一周起点
+  var daysInM = new Date(viewY, viewM+1, 0).getDate();
+  var prevDays = new Date(viewY, viewM, 0).getDate();
+  var rows = Math.ceil((startIdx + daysInM) / 7);   // 只渲染需要的周数
+  var tKey = todayKey();
+
+  var html = '';
+  for(var i=0; i<rows*7; i++){
+    var dnum, y = viewY, m = viewM;
+    if(i < startIdx){ dnum = prevDays - startIdx + 1 + i; m = viewM-1; }
+    else if(i >= startIdx + daysInM){ dnum = i - startIdx - daysInM + 1; m = viewM+1; }
+    else dnum = i - startIdx + 1;
+    if(m < 0){ m = 11; y--; } if(m > 11){ m = 0; y++; }
+
+    var dk = y + '-' + pad2(m+1) + '-' + pad2(dnum);
+    var outside = (i < startIdx || i >= startIdx + daysInM);
+    if(outside){ html += '<div class="day out">' + dnum + '</div>'; continue; }
+
+    var isFuture = dk > tKey;
+    var d = doneOf(dk).length;
+    var cls = 'day';
+    if(dk === tKey) cls += ' today';
+    if(dk === selected) cls += ' sel';
+    if(isFuture) cls += ' future';
+    if(!isFuture && d >= TOTAL) cls += ' full';
+
+    var sub = '';
+    if(!isFuture){
+      if(d > 0) sub += '<span class="frac">' + d + '/' + TOTAL + '</span>';
+      var r = DB.days[dk], ic = '';
+      if(r){
+        if(hasFeel(dk) >= 4){
+          var v = r.feels.sleep;
+          ic = (v >= 4 ? '🙂' : v === 3 ? '😐' : '😣');
+        } else if(r.note){ ic = '△'; }
+      }
+      if(ic) sub += '<span class="feel">' + ic + '</span>';
+    }
+    html += '<div class="' + cls + '" data-d="' + dk + '"><span>' + dnum + '</span>' + sub + '</div>';
+  }
+  document.getElementById('days').innerHTML = html;
+
+  Array.prototype.forEach.call(document.querySelectorAll('.day[data-d]'), function(el){
+    el.onclick = function(){
+      var dk = el.getAttribute('data-d');
+      if(dk > todayKey()){ toast('还没到那天，不能提前打卡'); return; }
+      selected = dk;
+      if(isSheet()){ sheetOpen = true; }      // 手机上：点日期弹出事项窗口
+      renderCal(); renderDay(); syncSheet();
+    };
+  });
+
+  document.getElementById('prevM').disabled = (viewY <= minYear() && viewM === 0);
+  document.getElementById('nextM').disabled = (viewY >= maxYear() && viewM === 11);
+  document.getElementById('selY').value = viewY;
+  document.getElementById('selM').value = viewM;
+}
+function countInMonth(){
+  var n = 0;
+  for(var k in DB.days){
+    var r = DB.days[k]; if(!r) continue;
+    if(!(doneOf(k).length > 0 || hasFeel(k) > 0 || (r.note && r.note.length))) continue;
+    var d = parseKey(k);
+    if(d.getFullYear() === viewY && d.getMonth() === viewM) n++;
+  }
+  return n;
+}
+
+/* ================= 当天详情 ================= */
+function renderDay(){
+  var k = selected, isToday = (k === todayKey()), isFuture = (k > todayKey());
+  document.getElementById('dTitle').textContent = fmtDate(k) + (isToday ? '（今天）' : '');
+
+  var d = doneOf(k).length;
+  document.getElementById('dProg').textContent = d + ' / ' + TOTAL;
+  document.getElementById('dBar').style.width = Math.round(d / TOTAL * 100) + '%';
+
+  var h = '';
+  for(var g=0; g<GROUPS.length; g++){
+    var list = TASKS.filter(function(t){ return t.grp === GROUPS[g]; });
+    if(!list.length) continue;
+    h += '<div class="grp"><div class="gt">' + GROUPS[g] + '</div>';
+    for(var i=0;i<list.length;i++){
+      var t = list[i], on = isDone(k, t.id), timed = t.mins > 0;
+      h += '<div class="item' + (on?' done':'') + '" data-id="' + t.id + '">' +
+             '<div class="row">' +
+               '<button class="cb' + (on?' on':'') + '" data-act="toggle" data-id="' + t.id + '" title="' +
+                  (on?'取消打卡':'直接打卡') + '">' + (on?'✓':'') + '</button>' +
+               '<div class="nm" data-act="toggle" data-id="' + t.id + '">' +
+                 '<span class="t1">' + esc(t.t1) + '</span>' +
+                 '<small>' + esc(t.d) + (timed ? '　·　建议 ' + t.mins + ' 分钟' : '') + '</small>' +
+               '</div>' +
+               (timed ? '<button class="mini" data-act="timer" data-id="' + t.id + '">⏱ 计时</button>' : '') +
+             '</div>' +
+             (timed ? '<div class="timer" id="tm-' + t.id + '"></div>' : '') +
+           '</div>';
+    }
+    h += '</div>';
+  }
+  document.getElementById('items').innerHTML = h;
+
+  Array.prototype.forEach.call(document.getElementById('items').querySelectorAll('[data-act]'), function(el){
+    el.onclick = function(e){
+      e.stopPropagation();
+      var id = el.getAttribute('data-id'), act = el.getAttribute('data-act');
+      if(isFuture){ toast('还没到那天'); return; }
+      if(act === 'timer') startTimer(id); else toggle(id);
+    };
+  });
+
+  var r = DB.days[k] || {feels:{}};
+  var fh = '';
+  for(var j=0;j<FEELS.length;j++){
+    var f = FEELS[j], cur = r.feels ? r.feels[f.k] : undefined;
+    fh += '<div class="frow"><div class="fl">' + f.label + ' <span>' + f.hint + '</span></div><div class="chips">';
+    for(var v=0; v<f.opts.length; v++){
+      fh += '<button class="chip' + (cur === v+1 ? ' on' : '') + '" data-f="' + f.k + '" data-v="' + (v+1) + '">' + f.opts[v] + '</button>';
+    }
+    fh += '</div></div>';
+  }
+  document.getElementById('feels').innerHTML = fh;
+  Array.prototype.forEach.call(document.getElementById('feels').querySelectorAll('.chip'), function(el){
+    el.onclick = function(){
+      if(isFuture){ toast('还没到那天'); return; }
+      var rec = dayRec(k), fk = el.getAttribute('data-f'), val = +el.getAttribute('data-v');
+      if(rec.feels[fk] === val) delete rec.feels[fk]; else rec.feels[fk] = val;
+      save(); renderDay(); renderCal(); renderStats();
+    };
+  });
+
+  document.getElementById('note').value = (DB.days[k] && DB.days[k].note) || '';
+  document.getElementById('note').disabled = isFuture;
+  document.getElementById('savedTip').textContent = '';
+}
+
+/* ================= 手机弹窗控制 ================= */
+function syncSheet(){
+  var det = document.getElementById('detail'), bd = document.getElementById('backdrop');
+  if(isSheet() && sheetOpen){
+    det.classList.add('open'); bd.classList.add('show');
+    det.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+  }else{
+    det.classList.remove('open'); bd.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+}
+function closeSheet(){
+  sheetOpen = false; syncSheet();
+}
+document.getElementById('btnClose').onclick = closeSheet;
+document.getElementById('backdrop').onclick = closeSheet;
+window.addEventListener('resize', function(){ syncSheet(); });
+window.addEventListener('orientationchange', function(){ setTimeout(syncSheet, 150); });
+
+/* ================= 打卡 ================= */
+function toggle(id){
+  var k = selected;
+  if(k > todayKey()){ toast('还没到那天'); return; }
+  var rec = dayRec(k), idx = rec.done.indexOf(id), wasDone = idx !== -1;
+  if(wasDone) rec.done.splice(idx, 1);
+  else { rec.done.push(id); rec.ts[id] = Date.now(); }
+  save(); renderDay(); renderCal(); renderStats();
+  if(wasDone) toast('已取消该项');
+  else{
+    var n = rec.done.length;
+    var t = TASKS.filter(function(x){ return x.id === id; })[0];
+    toast(n >= TOTAL ? '今天全部完成 🎉' : ('已打卡：' + (t ? t.t1 : '')));
+  }
+}
+
+/* ================= 计时器 ================= */
+function startTimer(id){
+  var t = TASKS.filter(function(x){ return x.id === id; })[0];
+  if(!t || !t.mins) return;
+  var owner = selected;
+  if(isDone(owner, id)){ toggle(id); return; }
+  timer = {id:id, owner:owner, total:t.mins*60, end:Date.now() + t.mins*60000,
+           phase:'work', paused:false, leftAtPause:0};
+  tick();
+  toast('开始计时 · 建议 ' + t.mins + ' 分钟，之后还有 ' + BUFFER_MIN + ' 分钟缓冲');
+}
+function tick(){
+  if(!timer) return;
+  var el = document.getElementById('tm-' + timer.id);
+  if(!el || timer.owner !== selected){ timer = null; return; }
+
+  if(timer.paused){
+    renderTimerFace(el, Math.round(Math.max(0, timer.leftAtPause)/1000));
+  }else{
+    var left = Math.max(0, Math.round((timer.end - Date.now())/1000));
+    if(timer.phase === 'work' && left <= 0){
+      timer.phase = 'buffer';
+      timer.end = Date.now() + BUFFER_MIN*60000;
+      notify('时间到！还有 ' + BUFFER_MIN + ' 分钟缓冲，完成后记得打卡');
+      playChime();
+      left = BUFFER_MIN*60;
+    }
+    if(timer.phase === 'buffer' && left <= 0){
+      renderTimerDone(el);
+      notify('缓冲结束，别忘了打卡');
+      playChime([880, 1174.7, 880]);
+      timer = null; drain(); return;
+    }
+    renderTimerFace(el, left);
+  }
+  drain();
+}
+function drain(){
+  clearTimeout(drain._t);
+  drain._t = setTimeout(function(){ if(timer) tick(); }, 250);
+}
+function renderTimerFace(el, left){
+  var m = Math.floor(left/60), s = left % 60;
+  var isBuf = (timer.phase === 'buffer');
+  var prog = isBuf ? Math.round((1 - left/(BUFFER_MIN*60))*100)
+                   : Math.round((1 - left/timer.total)*100);
+  prog = Math.max(0, Math.min(100, prog));
+  el.className = 'timer show' + (isBuf ? ' warn' : '');
+  el.innerHTML =
+    '<div class="tt">' + (isBuf ? '⏳ 缓冲时间 · ' + BUFFER_MIN + ' 分钟内完成即可'
+                                : '▶ 计时中 · 建议 ' + Math.round(timer.total/60) + ' 分钟') + '</div>' +
+    '<div class="tm">' + pad2(m) + ':' + pad2(s) + '</div>' +
+    '<div class="tb"><i style="width:' + prog + '%"></i></div>' +
+    '<div class="ta">' +
+      (timer.paused ? '<button class="p" data-t="resume">继续</button>'
+                    : '<button data-t="pause">暂停</button>') +
+      '<button data-t="done">提前完成</button>' +
+      '<button data-t="cancel">取消</button>' +
+    '</div>';
+  bindTimer(el);
+}
+function renderTimerDone(el){
+  el.className = 'timer show warn';
+  el.innerHTML = '<div class="tt">时间到，缓冲也结束了 —— 这一项还没打卡</div>' +
+    '<div class="tm">00:00</div>' +
+    '<div class="ta"><button class="p" data-t="done">完成打卡</button>' +
+    '<button data-t="cancel">跳过</button></div>';
+  bindTimer(el);
+}
+function bindTimer(el){
+  Array.prototype.forEach.call(el.querySelectorAll('[data-t]'), function(b){
+    b.onclick = function(){
+      if(!timer) return;
+      var a = b.getAttribute('data-t');
+      if(a === 'pause'){ timer.paused = true; timer.leftAtPause = timer.end - Date.now(); tick(); }
+      else if(a === 'resume'){ timer.end = Date.now() + timer.leftAtPause; timer.paused = false; tick(); }
+      else if(a === 'done'){
+        var id = timer.id; timer = null; clearTimeout(drain._t);
+        var e2 = document.getElementById('tm-' + id); if(e2){ e2.className = 'timer'; e2.innerHTML = ''; }
+        toggle(id);
+      }
+      else if(a === 'cancel'){
+        var id2 = timer.id; timer = null; clearTimeout(drain._t);
+        var e3 = document.getElementById('tm-' + id2); if(e3){ e3.className = 'timer'; e3.innerHTML = ''; }
+        toast('已取消计时');
+      }
+    };
+  });
+}
+function notify(msg){
+  toast(msg);
+  try{
+    if('Notification' in window && Notification.permission === 'granted'){
+      new Notification('每日打卡', {body: msg});
+    }
+  }catch(e){}
+}
+['click'].forEach(function(ev){
+  document.addEventListener(ev, function once(){
+    try{ if('Notification' in window && Notification.permission === 'default') Notification.requestPermission(); }catch(e){}
+    document.removeEventListener(ev, once);
+  }, {once:true});
+});
+
+/* ================= 备注自动保存 ================= */
+var noteT = null;
+document.getElementById('note').addEventListener('input', function(){
+  var el = this, k = selected;
+  document.getElementById('savedTip').textContent = '正在保存…';
+  clearTimeout(noteT);
+  noteT = setTimeout(function(){
+    if(k > todayKey()) return;
+    dayRec(k).note = el.value;
+    save(); renderCal(); renderStats();
+    document.getElementById('savedTip').textContent = '✓ 已保存';
+  }, 500);
+});
+
+/* ================= 统计 ================= */
+function last14(){
+  var out = [], t = new Date();
+  for(var i=0;i<14;i++) out.push(todayKey(new Date(t.getFullYear(), t.getMonth(), t.getDate()-i)));
+  return out;
+}
+function renderStats(){
+  var touched = 0, ratios = [], sleepV = [], sleepyV = [], focusV = [];
+  last14().forEach(function(k){
+    var r = DB.days[k]; if(!r) return;
+    var d = doneOf(k).length;
+    if(d > 0 || hasFeel(k) > 0 || (r.note && r.note.length)) touched++;
+    if(d > 0) ratios.push(d / TOTAL);
+    if(r.feels.sleep) sleepV.push(r.feels.sleep);
+    if(r.feels.sleepy !== undefined) sleepyV.push(r.feels.sleepy);
+    if(r.feels.focus !== undefined) focusV.push(r.feels.focus);
+  });
+  document.getElementById('st1').textContent = touched || '0';
+  var ar = avg(ratios);
+  document.getElementById('st2').textContent = ar === null ? '—' : Math.round(ar*100) + '%';
+  var as = avg(sleepyV);
+  document.getElementById('st3').textContent = as === null ? '—' : as.toFixed(1);
+  var sl = avg(sleepV);
+  document.getElementById('st4').textContent = sl === null ? '—' : (sl/5*100).toFixed(0) + '%';
+
+  var tp = [];
+  if(ar === null) tp.push('还没有数据。今天先点第一个 <em>「出门走 15 分钟」</em> 就算开始了——不必一次全做。');
+  else if(ar >= 0.8) tp.push('完成率 <em>' + Math.round(ar*100) + '%</em>，很稳。保持节奏比偶尔做满更好。');
+  else if(ar >= 0.5) tp.push('完成率 ' + Math.round(ar*100) + '%。吃力的话优先保住<em>晚间那几项</em>（穴位、泡脚、慢呼吸），其余可减。');
+  else tp.push('完成率 ' + Math.round(ar*100) + '%。先别求全，只固定一个时段做一件事，两周后再加。');
+  if(sleepyV.length >= 6){
+    var h1 = sleepyV.slice(0, Math.floor(sleepyV.length/2)), h2 = sleepyV.slice(Math.floor(sleepyV.length/2));
+    var a1 = avg(h1), a2 = avg(h2);
+    if(a1 - a2 >= 0.7) tp.push('白天困意在<em>下降</em>，方向是对的。');
+    else if(a2 - a1 >= 0.7) tp.push('白天困意在<em>上升</em>。持续一周以上就别加码练习，先去看医生。');
+  }
+  if(sleepV.length >= 4 && avg(sleepV) <= 2.5) tp.push('睡眠质量偏低。优先处理<em>睡前 90 分钟泡脚</em>与<em>卧室 18–22℃</em>。');
+  if(focusV.length >= 4 && avg(focusV) <= 2) tp.push('脑子清楚度偏低：先确认<em>床单有没有被汗浸湿</em>，并尽快查血常规与甲状腺功能。');
+  tp.push('记录的价值在<em>趋势</em>，不在单日分数。');
+  document.getElementById('tips').innerHTML = tp.join('<br>');
+}
+
+/* ================= 顶部按钮 ================= */
+document.getElementById('btnToday').onclick = function(){
+  var t = new Date();
+  viewY = t.getFullYear(); viewM = t.getMonth(); selected = todayKey(t);
+  daySeen = selected;
+  if(isSheet()) sheetOpen = true;
+  buildYearOptions();
+  renderCal(); renderDay(); renderStats(); paintClock();
+};
+document.getElementById('prevM').onclick = function(){
+  if(viewY <= minYear() && viewM === 0) return;
+  viewM--; if(viewM < 0){ viewM = 11; viewY--; } renderCal();
+};
+document.getElementById('nextM').onclick = function(){
+  if(viewY >= maxYear() && viewM === 11) return;
+  viewM++; if(viewM > 11){ viewM = 0; viewY++; } renderCal();
+};
+document.getElementById('btnExport').onclick = function(){
+  var lines = ['# 每日打卡记录', '', '导出时间：' + new Date().toLocaleString('zh-CN'), ''];
+  var any = false;
+  Object.keys(DB.days).sort().forEach(function(k){
+    var r = DB.days[k];
+    var d = doneOf(k).length, nf = hasFeel(k);
+    if(!d && !nf && !(r.note && r.note.length)) return;
+    any = true;
+    lines.push('## ' + k + '（完成 ' + d + '/' + TOTAL + '）');
+    if(nf){
+      var fv = [];
+      FEELS.forEach(function(f){
+        var v = r.feels[f.k];
+        if(v !== undefined) fv.push(f.label + '：' + f.opts[v-1]);
+      });
+      lines.push('- 感受：' + fv.join('　|　'));
+    }
+    lines.push('- 已完成：' + (d ? r.done.map(function(id){
+      var t = TASKS.filter(function(x){ return x.id === id; })[0];
+      return t ? t.t1 : id;
+    }).join('、') : '无'));
+    if(r.note) lines.push('- 备注：' + r.note.replace(/\n/g, ' '));
+    lines.push('');
+  });
+  if(!any) lines.push('（暂无记录）');
+  var text = lines.join('\n'), name = '打卡记录_' + todayKey() + '.md';
+  try{
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text], {type:'text/markdown;charset=utf-8'}));
+    a.download = name; document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    toast('已导出：' + name);
+  }catch(e){
+    var ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); toast('已复制到剪贴板'); }catch(e2){ alert(text); }
+    ta.remove();
+  }
+};
+document.getElementById('btnClear').onclick = function(){
+  confirmBox('清空全部记录？', '这会删除本设备上所有打卡与感受记录，无法恢复。建议先「导出备份」。', function(){
+    var snd = S();
+    DB = {ver:1, days:{}, settings:snd};
+    save(); renderCal(); renderDay(); renderStats(); paintClock(); toast('已清空');
+  }, '确认清空');
+};
+
+/* ---------- 导出备份 ---------- */
+function buildExportText(){
+  var lines = ['# 每日打卡记录', '', '导出时间：' + new Date().toLocaleString('zh-CN'), ''];
+  var any = false;
+  Object.keys(DB.days).sort().forEach(function(k){
+    var r = DB.days[k];
+    if(!r) return;
+    var d = doneOf(k).length, nf = hasFeel(k);
+    if(!d && !nf && !(r.note && r.note.length)) return;
+    any = true;
+    lines.push('## ' + k + '（完成 ' + d + '/' + TOTAL + '）');
+    if(nf){
+      var fv = [];
+      FEELS.forEach(function(f){
+        var v = r.feels[f.k];
+        if(v !== undefined) fv.push(f.label + '：' + f.opts[v-1]);
+      });
+      lines.push('- 感受：' + fv.join('　|　'));
+    }
+    lines.push('- 已完成：' + (d ? r.done.map(function(id){
+      var t = TASKS.filter(function(x){ return x.id === id; })[0];
+      return t ? t.t1 : id;
+    }).join('、') : '无'));
+    if(r.note) lines.push('- 备注：' + r.note.replace(/\n/g, ' '));
+    lines.push('');
+  });
+  if(!any) lines.push('（暂无记录）');
+  return lines.join('\n');
+}
+function downloadFile(name, text, mime){
+  try{
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text], {type: mime}));
+    a.download = name;
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1200);
+    return true;
+  }catch(e){ return false; }
+}
+document.getElementById('btnExport').onclick = function(){
+  var json = JSON.stringify({app:'每日打卡', ver:1, exported:new Date().toISOString(), data:DB}, null, 1);
+  var okJson = downloadFile('打卡备份_' + todayKey() + '.json', json, 'application/json;charset=utf-8');
+  var okMd = downloadFile('打卡记录_' + todayKey() + '.md', buildExportText(), 'text/markdown;charset=utf-8');
+  if(okJson && okMd) toast('已导出 2 个文件：.json（可再导入）与 .md（可读）');
+  else if(okJson) toast('已导出备份文件（.md 导出被浏览器阻止）');
+  else toast('导出被浏览器阻止，请用电脑浏览器打开后再导出');
+};
+
+/* ---------- 导入备份 ---------- */
+function mergeBackup(obj, sourceLabel){
+  if(!obj || !obj.days || typeof obj.days !== 'object'){
+    toast('这个文件里没有可识别的打卡数据');
+    return;
+  }
+  var addDays = 0, addItems = 0, addFeels = 0, addNotes = 0;
+  Object.keys(obj.days).forEach(function(k){
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(k)) return;
+    var src = obj.days[k];
+    if(!src || typeof src !== 'object') return;
+    var had = !!DB.days[k];
+    var rec = dayRec(k);
+    if(!had) addDays++;
+    (src.done || []).forEach(function(id){
+      if(rec.done.indexOf(id) === -1){ rec.done.push(id); addItems++; }
+    });
+    if(src.feels){
+      Object.keys(src.feels).forEach(function(fk){
+        if(rec.feels[fk] === undefined){ rec.feels[fk] = src.feels[fk]; addFeels++; }
+      });
+    }
+    if(src.note && !rec.note){ rec.note = src.note; addNotes++; }
+  });
+  if(obj.settings && S().sound === undefined) S().sound = obj.settings.sound;
+  save();
+  renderCal(); renderDay(); renderStats(); paintClock();
+  toast('导入完成（' + sourceLabel + '）：新增 ' + addDays + ' 天 · ' + addItems + ' 项 · ' +
+        addFeels + ' 条评分 · ' + addNotes + ' 条备注');
+}
+document.getElementById('btnImport').onclick = function(){
+  document.getElementById('fileIn').value = '';
+  document.getElementById('fileIn').click();
+};
+document.getElementById('fileIn').onchange = function(){
+  var f = this.files && this.files[0];
+  if(!f) return;
+  var reader = new FileReader();
+  reader.onload = function(){
+    var txt = String(reader.result || '');
+    var t = txt.replace(/^\uFEFF/, '').trim();
+    if(t.charAt(0) === '{'){
+      var obj = null;
+      try{ obj = JSON.parse(t); }catch(e){ obj = null; }
+      mergeBackup(obj && obj.data ? obj.data : obj, 'JSON 备份');
+    }else{
+      toast('这个文件不是 JSON 备份。请导入「打卡备份_日期.json」；.md 文件是给人看的，不能导入');
+    }
+  };
+  reader.onerror = function(){ toast('读取文件失败'); };
+  reader.readAsText(f, 'utf-8');
+};
+
+/* ---------- 提示音开关 ---------- */
+function paintSound(){
+  var b = document.getElementById('btnSound');
+  var on = !!S().sound;
+  b.textContent = on ? '🔔 提示音：开' : '🔕 提示音：关';
+  if(on) b.classList.add('on'); else b.classList.remove('on');
+}
+document.getElementById('btnSound').onclick = function(){
+  var s = S();
+  s.sound = !s.sound;
+  save(); paintSound();
+  if(s.sound){ playChime(); toast('提示音已开启（听到了吗？）'); }
+  else toast('提示音已关闭');
+};
+
+/* ================= 键盘 ================= */
+document.addEventListener('keydown', function(e){
+  if(e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+  if(e.key === 'Escape'){
+    if(timer){
+      var id = timer.id; timer = null; clearTimeout(drain._t);
+      var el = document.getElementById('tm-'+id); if(el){ el.className='timer'; el.innerHTML=''; }
+    }else if(isSheet() && sheetOpen){ closeSheet(); }
+  }
+  if(e.key === 'ArrowLeft') document.getElementById('prevM').click();
+  if(e.key === 'ArrowRight') document.getElementById('nextM').click();
+});
+
+/* ================= 启动 ================= */
+load();
+buildYearOptions();
+document.getElementById('selY').onchange = function(){ viewY = +this.value; renderCal(); };
+document.getElementById('selM').onchange = function(){ viewM = +this.value; renderCal(); };
+
+renderCal();
+renderDay();
+renderStats();
+syncSheet();
+paintSound();
+startClock();
+
+window.addEventListener('beforeunload', function(e){
+  if(timer){ e.preventDefault(); e.returnValue = ''; }
+});
+
+/* ================= 注册离线缓存（PWA） =================
+   只有在 https 或 localhost 下打开时才会生效；
+   用 file:// 直接打开时会静默失败，不影响任何功能。 */
+if('serviceWorker' in navigator && location.protocol !== 'file:'){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js').catch(function(){ /* 忽略 */ });
+  });
+}
+
+})();
+</script>
+</body>
+</html>
+
