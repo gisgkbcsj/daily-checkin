@@ -3,10 +3,12 @@
    注意：Service Worker 只在 https 或 localhost 下生效；
    用 file:// 直接打开页面时浏览器会自动忽略注册，属于正常现象。 */
 
-var CACHE = 'checkin-v2';
+var CACHE = 'checkin-v3';
 var ASSETS = [
   './',
-  './每日打卡.html',
+  './index.html',
+  './app.html',
+  './下一步.html',
   './manifest.json',
   './icon-192.svg',
   './icon-512.svg',
@@ -50,8 +52,8 @@ self.addEventListener('fetch', function(e){
         }catch(err){}
         return res;
       }).catch(function(){
-        /* 离线且未缓存：导航请求回退到主页面 */
-        if(e.request.mode === 'navigate') return caches.match('./每日打卡.html');
+        /* 离线且未缓存：导航请求回退到入口页 */
+        if(e.request.mode === 'navigate') return caches.match('./index.html');
         return Response.error();
       });
     })
