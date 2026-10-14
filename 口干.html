@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2b665e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.svg" type="image/svg+xml">
+<title>口干 · 皮肤干 专项方案</title>
+<style>
+  :root{
+    --bg:#f2f0ea; --card:#fff; --line:#e5e0d6; --line2:#f0ece4;
+    --ink:#242a2e; --ink2:#5a646d; --ink3:#8d959c;
+    --teal:#2b665e; --teal2:#3d8479; --tealbg:#e8f2ef;
+    --amber:#96682a; --amberbg:#fbf3e4;
+    --rose:#9c4848; --rosebg:#faeded;
+    --blue:#33608c; --bluebg:#ebf2f8;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink); font-size:16px; line-height:1.75;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-text-size-adjust:100%;
+  }
+  .app{max-width:620px; margin:0 auto; padding:16px 14px 60px}
+
+  /* ---------- 顶部 ---------- */
+  .hero{background:linear-gradient(160deg,#2b665e,#3d8479); color:#fff; border-radius:16px;
+    padding:20px 18px; margin-bottom:16px}
+  .hero h1{margin:0 0 6px; font-size:20px; line-height:1.4; letter-spacing:.3px}
+  .hero p{margin:0; font-size:13.5px; color:rgba(255,255,255,.86); line-height:1.65}
+  .hero .from{display:inline-block; margin-top:11px; font-size:12px; padding:3px 10px;
+    border-radius:99px; background:rgba(255,255,255,.18)}
+
+  /* ---------- 卡片 ---------- */
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:0; margin-bottom:14px; overflow:hidden}
+  .card > summary{padding:15px 16px; cursor:pointer; list-style:none; display:flex;
+    align-items:center; gap:10px; font-size:15.5px; font-weight:600}
+  .card > summary::-webkit-details-marker{display:none}
+  .card > summary::before{content:"›"; flex:none; color:var(--teal2); font-size:20px;
+    line-height:1; transform:rotate(90deg); transition:.2s}
+  .card[open] > summary::before{transform:rotate(-90deg)}
+  .card[open] > summary{border-bottom:1px solid var(--line2)}
+  .card .body{padding:14px 16px 18px}
+  .card .tag{margin-left:auto; flex:none; font-size:11.5px; font-weight:400; color:var(--ink3)}
+
+  .lead{font-size:14.5px; color:var(--ink2); margin:0 0 14px; line-height:1.75}
+  h3{font-size:14.5px; margin:16px 0 8px; color:var(--teal)}
+  h3:first-child{margin-top:0}
+  p{margin:0 0 10px; font-size:14.5px; color:var(--ink2)}
+  p:last-child{margin-bottom:0}
+  b,strong{color:var(--ink); font-weight:600}
+
+  ul{margin:0 0 10px; padding:0; list-style:none}
+  ul:last-child{margin-bottom:0}
+  li{position:relative; padding-left:18px; margin-bottom:8px; font-size:14.5px; color:var(--ink2); line-height:1.7}
+  li:last-child{margin-bottom:0}
+  li::before{content:""; position:absolute; left:4px; top:10px; width:5px; height:5px;
+    border-radius:50%; background:var(--teal2)}
+  ul.no li::before{background:var(--rose)}
+  li b{color:var(--ink)}
+
+  /* 表格 */
+  table{width:100%; border-collapse:collapse; font-size:14px; margin:6px 0 12px}
+  td,th{text-align:left; padding:9px 10px; border-bottom:1px solid var(--line2); vertical-align:top}
+  th{font-size:12px; color:var(--ink3); font-weight:600; background:#faf9f6}
+  tr:last-child td{border-bottom:none}
+  td:first-child{font-weight:600; color:var(--ink); white-space:nowrap}
+
+  /* 提示块 */
+  .note{border-radius:11px; padding:12px 14px; font-size:13.5px; line-height:1.7; margin:12px 0;
+    border-left:3px solid}
+  .n-teal{background:var(--tealbg); border-color:var(--teal); color:#245a53}
+  .n-amber{background:var(--amberbg); border-color:var(--amber); color:#7a5416}
+  .n-rose{background:var(--rosebg); border-color:var(--rose); color:#7d3838}
+  .n-blue{background:var(--bluebg); border-color:var(--blue); color:#2b5279}
+  .note b{color:inherit; font-weight:600}
+
+  /* 步骤条 */
+  .step{display:flex; gap:11px; padding:11px 0; border-top:1px dashed var(--line)}
+  .step:first-of-type{border-top:none; padding-top:2px}
+  .step .no{flex:none; width:24px; height:24px; border-radius:8px; background:var(--tealbg);
+    color:var(--teal); font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center}
+  .step .c{flex:1; min-width:0; font-size:14.5px; color:var(--ink2); line-height:1.65}
+  .step .c b{display:block; color:var(--ink); font-size:14.5px; margin-bottom:2px}
+
+  /* 反直觉强调 */
+  .big{background:#fff; border:2px solid var(--teal2); border-radius:13px; padding:15px 16px; margin:14px 0}
+  .big .t{font-size:12.5px; color:var(--teal); font-weight:700; letter-spacing:.5px; margin-bottom:6px}
+  .big p{font-size:15px; color:var(--ink); margin:0; line-height:1.7}
+
+  footer{text-align:center; font-size:11.5px; color:var(--ink3); margin-top:20px; line-height:1.8}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="hero">
+    <h1>口干 · 皮肤干 专项方案</h1>
+    <p>尿不黄，说明不是缺水 —— 重点不是"多喝水"，而是减少消耗、让水留得住。</p>
+    <span class="from">结合《呼吸革命》</span>
+  </div>
+
+  <!-- ========== 1 先搞清机制 ========== -->
+  <details class="card" open>
+    <summary>为什么喝了水还是干<span class="tag">先看这条</span></summary>
+    <div class="body">
+      <div class="big">
+        <div class="t">关键判断</div>
+        <p>如果只是缺水，身体会先节水 → <b>尿会变黄</b>。<br>
+        你的尿是清的却一直口干 —— <b>不是水不够，是水留不住、上不来。</b></p>
+      </div>
+
+      <h3>四条同时存在的路径</h3>
+      <table>
+        <tr><th>机制</th><th>你的对应表现</th></tr>
+        <tr><td>① 张口呼吸</td><td>空气没经过鼻腔加湿就直接冲进口腔，整夜带走黏膜水分。<b>晨起口干最重</b></td></tr>
+        <tr><td>② 代谢偏快</td><td>夜间燥热、怕热、心慌 —— 水分消耗快、体表蒸发多</td></tr>
+        <tr><td>③ 津液不濡润</td><td>中医所说"阴虚不能上承"：水在体内，但到不了口腔和皮肤</td></tr>
+        <tr><td>④ 环境干燥</td><td>转凉期开暖气 / 空调，室内湿度常常掉到 30% 以下</td></tr>
+      </table>
+
+      <h3>为什么"多喝水"解决不了</h3>
+      <p>一次灌 500ml，身体只会当多余水分排掉，接着又干。<br>
+      <b>真正有效的是三件事：减少蒸发、让水留得住、把环境湿度补回来。</b></p>
+
+      <div class="note n-teal">
+        <b>《呼吸革命》的切入角度：</b>鼻腔不是简单的通道 —— 它每时每刻都在给空气<b>加温、加湿、过滤，并带入一氧化氮</b>。走口腔等于跳过了这套设备。这一条对你尤其重要，因为"张口呼吸"是<b>唯一一个你能立刻改、而且效果当晚就能感觉到</b>的变量。
+      </div>
+    </div>
+  </details>
+
+  <!-- ========== 2 呼吸（核心） ========== -->
+  <details class="card" open>
+    <summary>呼吸：今晚就能见效的一环<span class="tag">核心</span></summary>
+    <div class="body">
+      <p class="lead">如果你只在口干这件事上做一件事 —— 做这个。</p>
+
+      <h3>① 全天鼻腔呼吸（不需要刻意，只需要"记得"）</h3>
+      <ul>
+        <li>嘴唇闭合，<b>舌尖轻贴上颚前部</b>（上门牙后方一点）—— 这个舌位能帮助气流留在鼻腔</li>
+        <li>意识到自己张着嘴时，闭回来就行。<b>不用控制每一次呼吸</b></li>
+        <li>盯屏幕、走路、通勤时最容易张嘴 —— 这几个场景设个提醒</li>
+      </ul>
+
+      <h3>② 睡前：把"张口呼吸"堵住</h3>
+      <div class="step"><div class="no">1</div><div class="c"><b>先确认鼻子通畅</b>生理盐水洗鼻，或热蒸汽 2 分钟。<b>鼻子不通时绝对不要贴嘴</b></div></div>
+      <div class="step"><div class="no">2</div><div class="c"><b>舌位抬高</b>舌尖贴上颚、舌根轻轻上抬，气道会更顺，嘴巴不容易张开</div></div>
+      <div class="step"><div class="no">3</div><div class="c"><b>侧卧</b>仰卧时下颌后坠、嘴巴更容易张开，侧卧明显改善</div></div>
+      <div class="step"><div class="no">4</div><div class="c"><b>口呼吸贴（低敏款）</b>从<b>白天戴 20 分钟</b>适应开始，再用于夜间</div></div>
+
+      <div class="note n-rose">
+        <b>禁忌：</b>鼻子堵、感冒、鼻窦炎发作期、鼻出血期 —— 全部停用口呼吸贴。严重打鼾或家人观察到呼吸暂停的，先去做睡眠监测，不要靠贴嘴解决。
+      </div>
+
+      <h3>③ 为什么还要做「慢呼吸」</h3>
+      <p>你的夜间燥热和口干是同一个系统的问题：<b>交感神经过度兴奋 → 皮肤血管收缩 → 散热难 + 体表水分蒸发快</b>。</p>
+      <p>睡前 <b>5 分钟「吸 4 秒 / 呼 6 秒」</b>（呼气要轻、无声、不用力），作用不是"补水"，而是<b>把这套紧绷的状态松开</b>，让黏膜和皮肤不再持续失水。</p>
+      <div class="note n-teal">
+        <b>注意别做反：</b>不要刻意深呼吸、不要憋气。气短时"用力吸"是反向操作 —— 呼掉太多二氧化碳反而让组织更难获得氧气。
+      </div>
+    </div>
+  </details>
+
+  <!-- ========== 3 喝水方式 ========== -->
+  <details class="card">
+    <summary>喝水：方式比总量重要<span class="tag">立刻可改</span></summary>
+    <div class="body">
+      <table>
+        <tr><th>改法</th><th>为什么</th></tr>
+        <tr><td>小口多次</td><td>每 30 分钟 2–3 口。<b>一次灌 500ml 会直接变尿排掉</b></td></tr>
+        <tr><td>喝温水</td><td>冰水刺激黏膜、加重胃肠负担；过烫的水会进一步损伤口腔黏膜</td></tr>
+        <tr><td>鼓漱再咽</td><td>含水在嘴里<b>鼓漱几下</b>再咽，润口效果远好于直接吞</td></tr>
+        <tr><td>睡前 1 小时停</td><td>避免夜里起夜打断睡眠（你的睡眠本来就在修复期）</td></tr>
+        <tr><td>白天喝足</td><td>总量放在白天，别指望晚上补</td></tr>
+      </table>
+      <div class="note n-amber">
+        <b>别踩的坑：</b>口干就猛灌水 → 尿更多、更频繁 → 津液反而更留不住。<b>"喝水"和"润燥"不是一回事。</b>
+      </div>
+    </div>
+  </details>
+
+  <!-- ========== 4 润燥 ========== -->
+  <details class="card">
+    <summary>吃：润燥，不是进补<span class="tag">中医</span></summary>
+    <div class="body">
+      <p class="lead">方向很重要 —— 你要的是<b>润</b>，不是<b>补</b>。补错了会加重燥热和口干。</p>
+
+      <h3>加进来</h3>
+      <table>
+        <tr><td>银耳</td><td>煮羹，可加百合。润肺生津，日常最推荐</td></tr>
+        <tr><td>梨</td><td>生吃或蒸熟。蒸梨更适合你（不寒凉）</td></tr>
+        <tr><td>山药 / 莲藕</td><td>煮汤、清炒。健脾同时生津</td></tr>
+        <tr><td>百合 / 桑葚</td><td>熬粥、泡水。滋阴、不温不燥</td></tr>
+        <tr><td>蜂蜜水</td><td>温水冲，早起一杯。<b>血糖异常者慎用</b></td></tr>
+      </table>
+
+      <h3>避开</h3>
+      <ul class="no">
+        <li><b>辣的、烫的、烤的、油炸</b> —— 直接消耗津液</li>
+        <li><b>酒、咖啡</b> —— 利尿，越喝越干</li>
+        <li><b>温补类：人参、桂圆、羊肉、鹿茸、海马</b> —— 你有燥热和口干，这些会明显加重</li>
+      </ul>
+
+      <h3>代茶饮：麦冬石斛百合饮</h3>
+      <div class="note n-blue">
+        <b>麦冬 6g + 石斛 6g + 百合 10g + 陈皮 2g</b><br>
+        沸水闷泡 10 分钟，可续水 2 次。<b>每天 1 杯，别过量。</b><br>
+        这款专门针对「口干舌燥 + 阴虚」，比你之前那几款更对症。
+      </div>
+      <p style="font-size:13px;color:var(--ink3)">
+        正在服药（尤其抗凝药、甲状腺药、降压药）请先问医生。孕期、哺乳期不要自行使用。喝 2 周没感觉就停掉。
+      </p>
+    </div>
+  </details>
+
+  <!-- ========== 5 穴位 ========== -->
+  <details class="card">
+    <summary>按穴位：两个「生津」穴<span class="tag">每天 2 次</span></summary>
+    <div class="body">
+      <table>
+        <tr><th>穴位</th><th>位置 / 做法</th></tr>
+        <tr><td>照海</td><td>内踝尖<b>正下方</b>的凹陷。<b>主咽干口燥，是口干最对症的一个</b>。拇指按揉 1 分钟</td></tr>
+        <tr><td>太溪</td><td>内踝尖与跟腱之间的凹陷。滋阴、降燥热。按揉 1 分钟</td></tr>
+      </table>
+      <div class="note n-teal">
+        <b>配合小技巧：</b>按揉时<b>嘴里含一小口温水，慢慢鼓漱</b>，再咽下去。润口效果比单纯按或单纯喝都好。
+      </div>
+      <p style="font-size:13px;color:var(--ink3)">力度以"有酸胀感但不痛"为准。按压处皮肤破损时跳过。</p>
+    </div>
+  </details>
+
+  <!-- ========== 6 环境与皮肤 ========== -->
+  <details class="card">
+    <summary>环境 + 皮肤：堵住失水的出口<span class="tag">常被忽略</span></summary>
+    <div class="body">
+      <h3>室内湿度是主战场</h3>
+      <ul>
+        <li>买个湿度计（十几块），盯住 <b>40%–60%</b></li>
+        <li>加湿器用起来，但<b>每天换水</b>，否则滋生细菌反而刺激气道</li>
+        <li>转凉期通风用<b>对流 5–10 分钟/次</b>，别整天开一条缝（室温损失大、效果差）</li>
+        <li><b>不要让暖气或空调对着人吹</b> —— 那是在直接抽走皮肤和黏膜的水分</li>
+      </ul>
+
+      <h3>皮肤干的正确做法</h3>
+      <div class="step"><div class="no">1</div><div class="c"><b>洗澡水别太烫</b>38–40℃ 以内，时间控制在 10 分钟内</div></div>
+      <div class="step"><div class="no">2</div><div class="c"><b>洗完 3 分钟内涂保湿</b>趁皮肤还微湿时涂，锁水效果差好几倍</div></div>
+      <div class="step"><div class="no">3</div><div class="c"><b>少用强力清洁产品</b>肥皂、搓澡巾会破坏皮肤屏障</div></div>
+      <div class="step"><div class="no">4</div><div class="c"><b>室内穿长袖</b>比一直涂东西更有效</div></div>
+
+      <div class="note n-amber">
+        <b>注意：</b>夜间燥热会让你出汗，汗液蒸发后皮肤更干。所以"降温"和"保湿"在这里是同一件事 —— 卧室 18–22℃ 对你两个症状都有帮助。
+      </div>
+    </div>
+  </details>
+
+  <!-- ========== 7 就医 ========== -->
+  <details class="card">
+    <summary>什么情况必须去查<span class="tag">重要</span></summary>
+    <div class="body">
+      <div class="note n-rose">
+        <b>口干 + 皮肤干 + 夜间燥热 + 心慌躁动 + 睡不解乏 —— 这个组合需要查因，不是靠润燥能解决的。</b>
+      </div>
+
+      <h3>可能的方向</h3>
+      <table>
+        <tr><td>甲状腺功能</td><td>甲亢代谢快会引起口干；甲亢也可表现为皮肤干燥。与你多项症状重合</td></tr>
+        <tr><td>血糖</td><td>典型表现是"多饮、多尿、口干"。你的尿清且不多，可能性较低，但值得一起查</td></tr>
+        <tr><td>干燥综合征</td><td>同时有<b>眼干、鼻子干、龋齿明显增多</b>时要考虑</td></tr>
+        <tr><td>睡眠呼吸暂停</td><td>整夜张口呼吸会让人早起口干、睡不解乏</td></tr>
+      </table>
+
+      <h3>建议一次抽血查完</h3>
+      <div class="note n-blue">
+        <b>血常规 + 铁蛋白 · 甲状腺功能（TSH / FT3 / FT4） · 空腹血糖 + 糖化 · 维生素 D</b><br>
+        有打鼾或夜间憋醒，加做睡眠监测。
+      </div>
+
+      <h3>出现这些立刻就医</h3>
+      <ul class="no">
+        <li>眼干到有异物感、视力变化，或龋齿突然增多</li>
+        <li>夜间燥热<b>把床单浸湿</b></li>
+        <li>体重不明原因下降、心慌手抖、明显怕热</li>
+        <li>口渴到无法缓解、尿量明显增多</li>
+      </ul>
+    </div>
+  </details>
+
+  <!-- ========== 8 速览 ========== -->
+  <details class="card">
+    <summary>一页速览：只做这 6 件<span class="tag">不想读细节看这里</span></summary>
+    <div class="body">
+      <table>
+        <tr><th>什么时候</th><th>做什么</th></tr>
+        <tr><td>全天</td><td><b>闭着嘴用鼻子呼吸</b>，舌尖贴上颚</td></tr>
+        <tr><td>全天</td><td><b>小口多次喝温水</b>，鼓漱再咽；睡前 1 小时停</td></tr>
+        <tr><td>随时</td><td>按 <b>照海 + 太溪</b> 各 1 分钟</td></tr>
+        <tr><td>睡前</td><td><b>吸 4 秒 / 呼 6 秒</b> 慢呼吸 5 分钟</td></tr>
+        <tr><td>睡前</td><td><b>侧卧 · 闭嘴 · 贴口呼吸贴</b>（确认鼻子通畅）</td></tr>
+        <tr><td>今晚</td><td>把<b>卧室湿度</b>调到 40%–60%，别让暖气对着吹</td></tr>
+      </table>
+      <div class="note n-teal">
+        <b>只记一句话：</b>你要的不是多喝水，而是<b>少蒸发、留得住、环境补回来</b>。
+      </div>
+    </div>
+  </details>
+
+  <footer>
+    内容由 AI 生成，仅供健康教育参考，不构成诊断或治疗建议。<br>
+    症状持续或加重，请及时就医。
+  </footer>
+
+</div>
+</body>
+</html>
